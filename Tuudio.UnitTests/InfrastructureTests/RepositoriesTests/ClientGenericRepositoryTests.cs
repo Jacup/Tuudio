@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using NUnit.Framework;
-using Tuudio.Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
 using Tuudio.Domain.Entities.People;
 using Tuudio.Domain.Exceptions;
 using Tuudio.Infrastructure.Data;
@@ -12,11 +6,11 @@ using Tuudio.Infrastructure.Services.Repositories;
 
 namespace Tuudio.Tests.Repositories
 {
-    public class GenericRepositoryTests
+    public class ClientGenericRepositoryTests
     {
         private TuudioDbContext _context;
         private GenericRepository<Client> _repository;
-        private Guid _defaultGuid = Guid.NewGuid();
+        private readonly Guid _defaultGuid = Guid.NewGuid();
 
         [SetUp]
         public void Setup()
@@ -32,9 +26,9 @@ namespace Tuudio.Tests.Repositories
             // Dodanie przykładowych danych do bazy w pamięci
             var clients = new List<Client>
             {
-                new Client { Id = _defaultGuid, FirstName = "John", LastName = "Doe" },
-                new Client { Id = Guid.NewGuid(), FirstName = "Jane", LastName = "Smith" },
-                new Client { Id = Guid.NewGuid(), FirstName = "Mike", LastName = "Johnson" }
+                new() { Id = _defaultGuid, FirstName = "John", LastName = "Doe" },
+                new() { Id = Guid.NewGuid(), FirstName = "Jane", LastName = "Smith" },
+                new() { Id = Guid.NewGuid(), FirstName = "Mike", LastName = "Johnson" }
             };
 
             _context.AddRange(clients);
@@ -157,14 +151,16 @@ namespace Tuudio.Tests.Repositories
         [Test]
         public async Task UpdateAsync_WhenEntityIsNull_ShouldThrowArgumentNullException()
         {
-            var ex = await Should.ThrowAsync<ArgumentNullException>(() => _repository.UpdateAsync(null as Client));
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
+            var ex = await Should.ThrowAsync<ArgumentNullException>(() => _repository.UpdateAsync(null));
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
         }
 
         [Test]
         public void UpdateAsync_WhenEntityNotExists_ShouldThrowEntityNotFoundException()
         {
             // Arrange
-            var entityId = Guid.NewGuid(); // Random non-existent Id
+            var entityId = Guid.NewGuid();
             var entity = new Client { Id = entityId, FirstName = "John", LastName = "Doe" };
 
             // Act + Assert
