@@ -1,5 +1,7 @@
-﻿namespace Tuudio.Domain.Exceptions;
+﻿using Tuudio.Domain.Entities.People;
 
-public class ClientNotFoundException(Guid clientId) : Exception($"Client with Id '{clientId}' not found.")
+namespace Tuudio.Domain.Exceptions;
+
+public class ClientNotFoundException(Guid clientId) : EntityNotFoundException<Client>(clientId)
 {
 }

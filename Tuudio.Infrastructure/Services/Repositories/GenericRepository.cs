@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using Tuudio.Domain.Entities;
+using Tuudio.Domain.Exceptions;
 using Tuudio.Infrastructure.Data;
 using Tuudio.Infrastructure.Services.Interfaces;
 
@@ -13,7 +13,7 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
 
     public GenericRepository(TuudioDbContext context)
     {
-        _context = context;
+        _context = context ?? throw new ArgumentNullException(nameof(context));
         _dbSet = _context.Set<T>();
     }
 
@@ -21,7 +21,7 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
 
     public virtual async Task DeleteAsync(Guid id)
     {
-        var entity = await _dbSet.FindAsync(id) ?? throw new Exception();
+        var entity = await _dbSet.FindAsync(id) ?? throw new EntityNotFoundException<T>(id);
 
         _dbSet.Remove(entity);
     }
@@ -43,11 +43,18 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
 
     public virtual async Task UpdateAsync(T entity)
     {
-        if (entity is not DbObject bdEntity)
-            throw new Exception();
+        ArgumentNullException.ThrowIfNull(entity);
 
-        var current = await _dbSet.FindAsync(bdEntity.Id) ?? throw new Exception();
+        if (entity is not DbObject dbEntity)
+            throw new ArgumentException($"Entity must inherit from {nameof(DbObject)}.");
+
+        var current = await _dbSet.FindAsync(dbEntity.Id) ?? throw new EntityNotFoundException<T>(dbEntity.Id);
 
         _dbSet.Entry(current).CurrentValues.SetValues(entity);
+    }
+
+    public virtual async Task SaveAsync()
+    {
+        await _context.SaveChangesAsync();
     }
 }
