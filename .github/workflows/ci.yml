@@ -29,6 +29,15 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
 
+    - name: Publish build artifacts
+      run: dotnet publish -c Release -o ./output
+
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: build-artifacts
+        path: ./output
+
   test:
   
     runs-on: ubuntu-latest
@@ -43,8 +52,11 @@ jobs:
       with:
         dotnet-version: '8.0.x'
 
-    - name: Restore dependencies
-      run: dotnet restore
+    - name: Download build artifacts
+      uses: actions/download-artifact@v3
+      with:
+        name: build-artifacts
+        path: ./output
 
     - name: Run tests
-      run: dotnet test --no-restore --verbosity normal
+      run: dotnet test --no-build --verbosity normal
