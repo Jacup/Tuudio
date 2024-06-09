@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  mariadb:
+    image: mariadb:10.11.8
+    environment:
+      MYSQL_ROOT_PASSWORD: passwOrd
+      MYSQL_DATABASE: tuudio
+      MYSQL_USER: adminO
+      MYSQL_PASSWORD: passwOrd
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./db:/mnt/data

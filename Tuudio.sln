@@ -3,7 +3,18 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.34916.146
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tuudio", "Tuudio\Tuudio.csproj", "{CE9A7140-0993-425F-BF9C-88F412CEC369}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tuudio", "Tuudio\Tuudio.csproj", "{CE9A7140-0993-425F-BF9C-88F412CEC369}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tuudio.UnitTests", "Tuudio.UnitTests\Tuudio.UnitTests.csproj", "{C58EA71C-4521-41A7-9925-D62A80DA03E4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{817480B1-5CA1-4F08-A5F9-418E5E0653AF}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tuudio.Domain", "Tuudio.Domain\Tuudio.Domain.csproj", "{98DAC3B5-831B-438B-BC54-EBADE6EBEA7E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tuudio.Infrastructure", "Tuudio.Infrastructure\Tuudio.Infrastructure.csproj", "{062D634B-1332-4F0D-BD05-44083B8F3DC2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +26,18 @@ Global
 		{CE9A7140-0993-425F-BF9C-88F412CEC369}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CE9A7140-0993-425F-BF9C-88F412CEC369}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CE9A7140-0993-425F-BF9C-88F412CEC369}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C58EA71C-4521-41A7-9925-D62A80DA03E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C58EA71C-4521-41A7-9925-D62A80DA03E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C58EA71C-4521-41A7-9925-D62A80DA03E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C58EA71C-4521-41A7-9925-D62A80DA03E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98DAC3B5-831B-438B-BC54-EBADE6EBEA7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98DAC3B5-831B-438B-BC54-EBADE6EBEA7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98DAC3B5-831B-438B-BC54-EBADE6EBEA7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98DAC3B5-831B-438B-BC54-EBADE6EBEA7E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{062D634B-1332-4F0D-BD05-44083B8F3DC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{062D634B-1332-4F0D-BD05-44083B8F3DC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{062D634B-1332-4F0D-BD05-44083B8F3DC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{062D634B-1332-4F0D-BD05-44083B8F3DC2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

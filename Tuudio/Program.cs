@@ -1,25 +1,19 @@
+using Tuudio.Extensions;
+using Tuudio.Infrastructure.Data;
+using Tuudio.Infrastructure.Services.Interfaces;
+using Tuudio.Infrastructure.Services.Repositories;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+var connectionString = builder.Configuration.GetConnectionString("TuudioDbConnection");
 
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.RegisterServices();
+builder.Services.ConfigureDbContext(connectionString);
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-
-app.UseHttpsRedirection();
-
+app.RegisterMiddleware();
 app.UseAuthorization();
-
-app.MapControllers();
+//app.MapControllers();
 
 app.Run();
