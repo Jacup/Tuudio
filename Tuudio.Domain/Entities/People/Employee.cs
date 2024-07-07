@@ -1,6 +1,5 @@
-﻿namespace Tuudio.Domain.Entities.People
+﻿namespace Tuudio.Domain.Entities.People;
+
+public class Employee
 {
-    public class Employee
-    {
-    }
 }

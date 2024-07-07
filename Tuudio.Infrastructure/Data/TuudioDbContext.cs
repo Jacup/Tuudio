@@ -1,16 +1,17 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Reflection;
-using Tuudio.Domain.Entities.People;
 
 namespace Tuudio.Infrastructure.Data;
 
 public class TuudioDbContext : DbContext
 {
-    public TuudioDbContext(DbContextOptions<TuudioDbContext> options) : base(options)
+    public TuudioDbContext() : base()
     {
     }
 
-    public DbSet<Client> Clients { get; set; }
+    public TuudioDbContext(DbContextOptions<TuudioDbContext> options) : base(options)
+    {
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

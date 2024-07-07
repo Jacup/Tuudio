@@ -1,10 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Tuudio.Infrastructure.Services;
 using Tuudio.Infrastructure.Services.Interfaces;
 using Tuudio.Infrastructure.Services.Repositories;
 
 namespace Tuudio.Infrastructure.Data;
+
 public static class DbContextExtensions
 {
     public static void ConfigureDbContext(this IServiceCollection services, string connectionString)
@@ -17,8 +19,7 @@ public static class DbContextExtensions
             .EnableSensitiveDataLogging()
             .EnableDetailedErrors());
 
-        services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IClientRepository, ClientRepository>();
-
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
     }
 }

@@ -1,7 +1,5 @@
 using Tuudio.Extensions;
 using Tuudio.Infrastructure.Data;
-using Tuudio.Infrastructure.Services.Interfaces;
-using Tuudio.Infrastructure.Services.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 

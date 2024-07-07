@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using Tuudio.Models.DTOs;
+using Tuudio.DTOs.People;
 
 namespace Tuudio.Validators;
 

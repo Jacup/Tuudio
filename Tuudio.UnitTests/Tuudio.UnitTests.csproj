@@ -28,16 +28,12 @@
 
 	<ItemGroup>
 		<Using Include="NUnit.Framework" />
-		<Using Include="Shouldly"/>
+		<Using Include="Shouldly" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\Tuudio.Domain\Tuudio.Domain.csproj" />
 		<ProjectReference Include="..\Tuudio\Tuudio.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<Folder Include="ApplicationTests\" />
 	</ItemGroup>
 
 </Project>

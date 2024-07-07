@@ -32,5 +32,7 @@ public class ClientConfiguration : IEntityTypeConfiguration<Client>
                 FirstName = "Jane",
                 LastName = "Doe",
             });
+
+        builder.ToTable("Clients");
     }
 }

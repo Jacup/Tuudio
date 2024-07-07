@@ -1,38 +1,28 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Net.WebSockets;
 using Tuudio.Domain.Entities;
 using Tuudio.Infrastructure.Data;
 using Tuudio.Infrastructure.Services.Interfaces;
 
-namespace Tuudio.Infrastructure.Services.Repositories;
+namespace Tuudio.Infrastructure.Services;
 
 public class UnitOfWork : IUnitOfWork, IDisposable
 {
     private readonly TuudioDbContext _context;
 
-    public UnitOfWork(TuudioDbContext context)
+    public UnitOfWork(TuudioDbContext context, IClientRepository clientRepository)
     {
         _context = context ?? throw new ArgumentNullException(nameof(context));
-        ClientRepository = new ClientRepository(_context);
+        ClientRepository = clientRepository;
     }
 
     public IClientRepository ClientRepository { get; private set; }
 
-    public async Task CompleteAsync()
-    {
-        await _context.SaveChangesAsync();
-    }
-
-    public void Dispose()
-    {
-        _context.Dispose();
-    }
+    public void Dispose() => _context.Dispose();
 
     public async Task<T> ExecuteAsync<T>(Func<Task<T>> action)
     {
         //if (entity is not DbObject dbEntity)
         //    throw new ArgumentException($"Entity must inherit from {nameof(DbObject)}.");
-
 
         await using var transaction = await _context.Database.BeginTransactionAsync();
 

@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using Tuudio.Domain.Entities.People;
+﻿using Tuudio.Domain.Entities.People;
 using Tuudio.Infrastructure.Data;
 using Tuudio.Infrastructure.Services.Interfaces;
 
