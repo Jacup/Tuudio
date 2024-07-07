@@ -1,10 +1,10 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
-using Tuudio.Domain.Entities.People;
 using Tuudio.Domain.Exceptions;
-using Tuudio.Extensions;
+using Tuudio.DTOs.People;
+using Tuudio.DTOs.People.Detailed;
+using Tuudio.Extensions.Clients;
 using Tuudio.Infrastructure.Services.Interfaces;
-using Tuudio.Models.DTOs;
 
 namespace Tuudio.Endpoints;
 
@@ -14,25 +14,25 @@ public static class ClientsApi
     {
         group
             .MapGet("/", async (IUnitOfWork uow) => await uow.ExecuteAsync(() => GetClientsAsync(uow)))
-            .Produces<IEnumerable<Client>>(StatusCodes.Status200OK)
+            .Produces<IEnumerable<ClientDetailedDto>>(StatusCodes.Status200OK)
             .WithOpenApi();
 
         group
             .MapGet("/{id}", async (Guid id, IUnitOfWork uow) => await uow.ExecuteAsync(() => GetClientByIdAsync(uow, id)))
-            .Produces<Client>(StatusCodes.Status200OK)
+            .Produces<ClientDetailedDto>(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status404NotFound)
             .WithOpenApi();
 
         group
             .MapPost("/", async (ClientDto clientDto, IValidator<ClientDto> validator, IUnitOfWork uow) => await uow.ExecuteAsync(() => AddClientAsync(uow, clientDto, validator)))
-            .Produces<Client>(StatusCodes.Status201Created)
+            .Produces<ClientDetailedDto>(StatusCodes.Status201Created)
             .Produces<IEnumerable<ValidationFailure>>(StatusCodes.Status400BadRequest)
             .Produces(StatusCodes.Status400BadRequest)
             .WithOpenApi();
 
         group
             .MapPut("/{id}", async (Guid id, ClientDto clientDto, IValidator<ClientDto> validator, IUnitOfWork uow) => await uow.ExecuteAsync(() => UpdateClientAsync(uow, id, clientDto, validator)))
-            .Produces<Client>(StatusCodes.Status200OK)
+            .Produces<ClientDetailedDto>(StatusCodes.Status200OK)
             .Produces<IEnumerable<ValidationFailure>>(StatusCodes.Status400BadRequest)
             .Produces(StatusCodes.Status400BadRequest)
             .WithOpenApi();
@@ -46,24 +46,24 @@ public static class ClientsApi
         return group;
     }
 
-    private static async Task<IResult> GetClientsAsync(IUnitOfWork unitOfWork)
+    internal static async Task<IResult> GetClientsAsync(IUnitOfWork unitOfWork)
     {
         var clients = await unitOfWork.ClientRepository.GetAllAsync();
 
-        return Results.Ok(clients);
+        return Results.Ok(clients.Select(c => c.ToDetailedDto()));
     }
 
-    private static async Task<IResult> GetClientByIdAsync(IUnitOfWork unitOfWork, Guid id)
+    internal static async Task<IResult> GetClientByIdAsync(IUnitOfWork unitOfWork, Guid id)
     {
         var client = await unitOfWork.ClientRepository.GetByIdAsync(id);
 
         if (client == null)
             return Results.NotFound($"Client with ID \"{id}\" not found");
 
-        return Results.Ok(client);
+        return Results.Ok(client.ToDetailedDto());
     }
 
-    private static async Task<IResult> AddClientAsync(IUnitOfWork unitOfWork, ClientDto clientDto, IValidator<ClientDto> validator)
+    internal static async Task<IResult> AddClientAsync(IUnitOfWork unitOfWork, ClientDto clientDto, IValidator<ClientDto> validator)
     {
         if (clientDto == null)
             return Results.BadRequest("Client data is required.");
@@ -77,7 +77,7 @@ public static class ClientsApi
 
         await unitOfWork.ClientRepository.InsertAsync(client);
 
-        return Results.Created($"/clients/{client.Id}", client);
+        return Results.Created($"/clients/{client.Id}", client.ToDetailedDto());
     }
 
     private static async Task<IResult> UpdateClientAsync(IUnitOfWork unitOfWork, Guid id, ClientDto clientDto, IValidator<ClientDto> validator)
@@ -101,7 +101,7 @@ public static class ClientsApi
             return Results.NotFound(e.Message);
         }
 
-        return Results.Ok(client);
+        return Results.Ok(client.ToDetailedDto());
     }
 
     private static async Task<IResult> DeleteClientAsync(IUnitOfWork unitOfWork, Guid id)

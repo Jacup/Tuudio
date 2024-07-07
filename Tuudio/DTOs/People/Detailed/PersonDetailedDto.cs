@@ -1,9 +1,9 @@
-﻿namespace Tuudio.Domain.Entities.People;
+﻿namespace Tuudio.DTOs.People.Detailed;
 
-public abstract class Person : DbObject
+public abstract record PersonDetailedDto : DbObjectDto
 {
     public required string FirstName { get; set; }
-    
+
     public required string LastName { get; set; }
 
     public string? Email { get; set; }

@@ -1,17 +1,14 @@
 ﻿using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Http.Json;
-using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 using Tuudio.Endpoints;
-using Tuudio.Infrastructure.Data;
 using Tuudio.Validators;
 
 namespace Tuudio.Extensions;
 
 public static class Configuration
 {
-
     public static void RegisterServices(this WebApplicationBuilder builder)
     {
         builder.Services.AddAuthorization();
@@ -28,7 +25,7 @@ public static class Configuration
 
         builder.Services
             .AddEndpointsApiExplorer()
-            .AddSwaggerGen()
+            .AddSwaggerGen(o => o.SupportNonNullableReferenceTypes())
             .AddLogging();
     }
 
@@ -43,6 +40,5 @@ public static class Configuration
         app.UseHttpsRedirection();
 
         app.MapGroup("/api/clients").MapClientsApi();
-
     }
 }
