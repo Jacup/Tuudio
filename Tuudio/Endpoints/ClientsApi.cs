@@ -80,8 +80,11 @@ public static class ClientsApi
         return Results.Created($"/clients/{client.Id}", client.ToDetailedDto());
     }
 
-    private static async Task<IResult> UpdateClientAsync(IUnitOfWork unitOfWork, Guid id, ClientDto clientDto, IValidator<ClientDto> validator)
+    internal static async Task<IResult> UpdateClientAsync(IUnitOfWork unitOfWork, Guid id, ClientDto clientDto, IValidator<ClientDto> validator)
     {
+        if (id == Guid.Empty)
+            return Results.BadRequest("Client id is required.");
+
         if (clientDto == null)
             return Results.BadRequest("Client data is required.");
 
@@ -104,7 +107,7 @@ public static class ClientsApi
         return Results.Ok(client.ToDetailedDto());
     }
 
-    private static async Task<IResult> DeleteClientAsync(IUnitOfWork unitOfWork, Guid id)
+    internal static async Task<IResult> DeleteClientAsync(IUnitOfWork unitOfWork, Guid id)
     {
         try
         {
