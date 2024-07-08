@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
+using Tuudio.Domain.Entities.People;
 using Tuudio.Domain.Exceptions;
 using Tuudio.DTOs.People;
 using Tuudio.DTOs.People.Detailed;
@@ -43,7 +44,7 @@ public static class ClientsApi
             .Produces<string>(StatusCodes.Status404NotFound)
             .WithOpenApi();
 
-        return group;
+        return group.WithTags("clients");
     }
 
     internal static async Task<IResult> GetClientsAsync(IUnitOfWork unitOfWork)
@@ -99,7 +100,7 @@ public static class ClientsApi
         {
             await unitOfWork.ClientRepository.UpdateAsync(client);
         }
-        catch (ClientNotFoundException e)
+        catch (EntityNotFoundException<Client> e)
         {
             return Results.NotFound(e.Message);
         }
@@ -113,7 +114,7 @@ public static class ClientsApi
         {
             await unitOfWork.ClientRepository.DeleteAsync(id);
         }
-        catch (ClientNotFoundException e)
+        catch (EntityNotFoundException<Client> e)
         {
             return Results.NotFound(e.Message);
         }

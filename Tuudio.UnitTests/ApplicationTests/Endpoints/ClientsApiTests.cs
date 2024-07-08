@@ -376,7 +376,7 @@ public class ClientsApiTests
         // Arrange
         repositoryMock
             .Setup(m => m.DeleteAsync(It.IsAny<Guid>()))
-            .ThrowsAsync(new ClientNotFoundException(It.IsAny<Guid>()));
+            .ThrowsAsync(new EntityNotFoundException<Client>(It.IsAny<Guid>()));
         
         uowMock
             .Setup(m => m.ClientRepository)
