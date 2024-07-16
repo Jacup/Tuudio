@@ -46,14 +46,14 @@ public static class ActivitiesApi
         return group.WithTags("activities");
     }
 
-    private static async Task<IResult> GetAsync(IUnitOfWork uow)
+    internal static async Task<IResult> GetAsync(IUnitOfWork uow)
     {
         var activities = await uow.ActivityRepository.GetAllAsync();
 
         return Results.Ok(activities.Select(a => a.ToDetailedDto()));
     }
 
-    private static async Task<IResult> GetByIdAsync(IUnitOfWork uow, Guid id)
+    internal static async Task<IResult> GetByIdAsync(IUnitOfWork uow, Guid id)
     {
         var activity = await uow.ActivityRepository.GetByIdAsync(id);
 
@@ -63,7 +63,7 @@ public static class ActivitiesApi
         return Results.Ok(activity.ToDetailedDto());
     }
 
-    private static async Task<IResult> AddAsync(IUnitOfWork uow, ActivityDto dto, IValidator<ActivityDto> validator)
+    internal static async Task<IResult> AddAsync(IUnitOfWork uow, ActivityDto dto, IValidator<ActivityDto> validator)
     {
         if (dto == null)
             return Results.BadRequest("Activity data is required.");
@@ -80,7 +80,7 @@ public static class ActivitiesApi
         return Results.Created($"/activities/{activity.Id}", activity.ToDetailedDto());
     }
 
-    private static async Task<IResult> UpdateAsync(IUnitOfWork uow, Guid id, ActivityDto dto, IValidator<ActivityDto> validator)
+    internal static async Task<IResult> UpdateAsync(IUnitOfWork uow, Guid id, ActivityDto dto, IValidator<ActivityDto> validator)
     {
         if (id == Guid.Empty)
             return Results.BadRequest("Activity id is required.");
@@ -107,7 +107,7 @@ public static class ActivitiesApi
         return Results.Ok(activity.ToDetailedDto());
     }
 
-    private static async Task<IResult> DeleteAsync(IUnitOfWork uow, Guid id)
+    internal static async Task<IResult> DeleteAsync(IUnitOfWork uow, Guid id)
     {
         try
         {

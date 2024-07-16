@@ -40,7 +40,7 @@ public class ClientsApiTests
         uowMock.Setup(m => m.ClientRepository).Returns(repositoryMock.Object);
 
         // Act
-        var result = await ClientsApi.GetClientsAsync(uowMock.Object);
+        var result = await ClientsApi.GetAsync(uowMock.Object);
 
         // Assert
         result.ShouldBeOfType(typeof(Ok<IEnumerable<ClientDetailedDto>>));
@@ -60,7 +60,7 @@ public class ClientsApiTests
         uowMock.Setup(m => m.ClientRepository).Returns(repositoryMock.Object);
 
         // Act
-        var result = await ClientsApi.GetClientsAsync(uowMock.Object);
+        var result = await ClientsApi.GetAsync(uowMock.Object);
 
         // Assert
         result.ShouldBeOfType(typeof(Ok<IEnumerable<ClientDetailedDto>>));
@@ -82,7 +82,7 @@ public class ClientsApiTests
         uowMock.Setup(m => m.ClientRepository).Returns(repositoryMock.Object);
 
         // Act
-        var result = await ClientsApi.GetClientByIdAsync(uowMock.Object, client.Id);
+        var result = await ClientsApi.GetByIdAsync(uowMock.Object, client.Id);
 
         // Assert
         result.ShouldBeOfType(typeof(Ok<ClientDetailedDto>));
@@ -105,7 +105,7 @@ public class ClientsApiTests
         uowMock.Setup(m => m.ClientRepository).Returns(repositoryMock.Object);
 
         // Act
-        var result = await ClientsApi.GetClientByIdAsync(uowMock.Object, It.IsAny<Guid>());
+        var result = await ClientsApi.GetByIdAsync(uowMock.Object, It.IsAny<Guid>());
 
         // Assert
         result.ShouldBeOfType(typeof(NotFound<string>));
@@ -137,7 +137,7 @@ public class ClientsApiTests
             .ReturnsAsync(new ValidationResult());
 
         // Act
-        var result = await ClientsApi.AddClientAsync(uowMock.Object, clientDto, validatorMock.Object);
+        var result = await ClientsApi.AddAsync(uowMock.Object, clientDto, validatorMock.Object);
 
         // Assert
         result.ShouldBeOfType(typeof(Created<ClientDetailedDto>));
@@ -172,7 +172,7 @@ public class ClientsApiTests
             .ReturnsAsync(new ValidationResult());
 
         // Act
-        var result = await ClientsApi.AddClientAsync(uowMock.Object, null!, validatorMock.Object);
+        var result = await ClientsApi.AddAsync(uowMock.Object, null!, validatorMock.Object);
 
         // Assert
         result.ShouldBeOfType(typeof(BadRequest<string>));
@@ -207,7 +207,7 @@ public class ClientsApiTests
             .ReturnsAsync(validationResult);
 
         // Act
-        var result = await ClientsApi.AddClientAsync(uowMock.Object, clientDto, validatorMock.Object);
+        var result = await ClientsApi.AddAsync(uowMock.Object, clientDto, validatorMock.Object);
 
         // Assert
         result.ShouldBeOfType(typeof(BadRequest<List<ValidationFailure>>));
@@ -239,7 +239,7 @@ public class ClientsApiTests
             .ReturnsAsync(new ValidationResult());
 
         // Act
-        var result = await ClientsApi.UpdateClientAsync(uowMock.Object, firstGuid, clientDto, validatorMock.Object);
+        var result = await ClientsApi.UpdateAsync(uowMock.Object, firstGuid, clientDto, validatorMock.Object);
 
         // Assert
         result.ShouldBeOfType(typeof(Ok<ClientDetailedDto>));
@@ -272,7 +272,7 @@ public class ClientsApiTests
             .ReturnsAsync(new ValidationResult());
 
         // Act
-        var result = await ClientsApi.UpdateClientAsync(uowMock.Object, firstGuid, null!, validatorMock.Object);
+        var result = await ClientsApi.UpdateAsync(uowMock.Object, firstGuid, null!, validatorMock.Object);
 
         // Assert
         result.ShouldBeOfType(typeof(BadRequest<string>));
@@ -304,7 +304,7 @@ public class ClientsApiTests
             .ReturnsAsync(new ValidationResult());
 
         // Act
-        var result = await ClientsApi.UpdateClientAsync(uowMock.Object, Guid.Empty, clientDto, validatorMock.Object);
+        var result = await ClientsApi.UpdateAsync(uowMock.Object, Guid.Empty, clientDto, validatorMock.Object);
 
         // Assert
         result.ShouldBeOfType(typeof(BadRequest<string>));
@@ -339,7 +339,7 @@ public class ClientsApiTests
             .ReturnsAsync(validationResult);
 
         // Act
-        var result = await ClientsApi.UpdateClientAsync(uowMock.Object, firstGuid, clientDto, validatorMock.Object);
+        var result = await ClientsApi.UpdateAsync(uowMock.Object, firstGuid, clientDto, validatorMock.Object);
 
         // Assert
         result.ShouldBeOfType(typeof(BadRequest<List<ValidationFailure>>));
@@ -360,7 +360,7 @@ public class ClientsApiTests
             .Returns(repositoryMock.Object);
 
         // Act
-        var result = await ClientsApi.DeleteClientAsync(uowMock.Object, It.IsAny<Guid>());
+        var result = await ClientsApi.DeleteAsync(uowMock.Object, It.IsAny<Guid>());
 
         // Assert
         result.ShouldBeOfType(typeof(NoContent));
@@ -383,7 +383,7 @@ public class ClientsApiTests
             .Returns(repositoryMock.Object);
 
         // Act
-        var result = await ClientsApi.DeleteClientAsync(uowMock.Object, It.IsAny<Guid>());
+        var result = await ClientsApi.DeleteAsync(uowMock.Object, It.IsAny<Guid>());
 
         // Assert
         result.ShouldBeOfType(typeof(NotFound<string>));
@@ -392,6 +392,6 @@ public class ClientsApiTests
 
         castedResult.StatusCode.ShouldBe(404);
         castedResult.Value.ShouldNotBeNull();
-        castedResult.Value.ShouldBe("Entity of type 'Tuudio.Domain.Entities.People.Client' with ID = '00000000-0000-0000-0000-000000000000' not found");
+        castedResult.Value.ShouldBe("Entity of type 'Client' with ID = '00000000-0000-0000-0000-000000000000' not found");
     }
 }

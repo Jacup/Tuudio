@@ -14,32 +14,32 @@ public static class ClientsApi
     public static RouteGroupBuilder MapClientsApi(this RouteGroupBuilder group)
     {
         group
-            .MapGet("/", async (IUnitOfWork uow) => await uow.ExecuteAsync(() => GetClientsAsync(uow)))
+            .MapGet("/", async (IUnitOfWork uow) => await uow.ExecuteAsync(() => GetAsync(uow)))
             .Produces<IEnumerable<ClientDetailedDto>>(StatusCodes.Status200OK)
             .WithOpenApi();
 
         group
-            .MapGet("/{id}", async (Guid id, IUnitOfWork uow) => await uow.ExecuteAsync(() => GetClientByIdAsync(uow, id)))
+            .MapGet("/{id}", async (Guid id, IUnitOfWork uow) => await uow.ExecuteAsync(() => GetByIdAsync(uow, id)))
             .Produces<ClientDetailedDto>(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status404NotFound)
             .WithOpenApi();
 
         group
-            .MapPost("/", async (ClientDto clientDto, IValidator<ClientDto> validator, IUnitOfWork uow) => await uow.ExecuteAsync(() => AddClientAsync(uow, clientDto, validator)))
+            .MapPost("/", async (ClientDto clientDto, IValidator<ClientDto> validator, IUnitOfWork uow) => await uow.ExecuteAsync(() => AddAsync(uow, clientDto, validator)))
             .Produces<ClientDetailedDto>(StatusCodes.Status201Created)
             .Produces<IEnumerable<ValidationFailure>>(StatusCodes.Status400BadRequest)
             .Produces(StatusCodes.Status400BadRequest)
             .WithOpenApi();
 
         group
-            .MapPut("/{id}", async (Guid id, ClientDto clientDto, IValidator<ClientDto> validator, IUnitOfWork uow) => await uow.ExecuteAsync(() => UpdateClientAsync(uow, id, clientDto, validator)))
+            .MapPut("/{id}", async (Guid id, ClientDto clientDto, IValidator<ClientDto> validator, IUnitOfWork uow) => await uow.ExecuteAsync(() => UpdateAsync(uow, id, clientDto, validator)))
             .Produces<ClientDetailedDto>(StatusCodes.Status200OK)
             .Produces<IEnumerable<ValidationFailure>>(StatusCodes.Status400BadRequest)
             .Produces(StatusCodes.Status400BadRequest)
             .WithOpenApi();
 
         group
-            .MapDelete("/{id}", async (Guid id, IUnitOfWork uow) => await uow.ExecuteAsync(() => DeleteClientAsync(uow, id)))
+            .MapDelete("/{id}", async (Guid id, IUnitOfWork uow) => await uow.ExecuteAsync(() => DeleteAsync(uow, id)))
             .Produces(StatusCodes.Status204NoContent)
             .Produces<string>(StatusCodes.Status404NotFound)
             .WithOpenApi();
@@ -47,14 +47,14 @@ public static class ClientsApi
         return group.WithTags("clients");
     }
 
-    internal static async Task<IResult> GetClientsAsync(IUnitOfWork unitOfWork)
+    internal static async Task<IResult> GetAsync(IUnitOfWork unitOfWork)
     {
         var clients = await unitOfWork.ClientRepository.GetAllAsync();
 
         return Results.Ok(clients.Select(c => c.ToDetailedDto()));
     }
 
-    internal static async Task<IResult> GetClientByIdAsync(IUnitOfWork unitOfWork, Guid id)
+    internal static async Task<IResult> GetByIdAsync(IUnitOfWork unitOfWork, Guid id)
     {
         var client = await unitOfWork.ClientRepository.GetByIdAsync(id);
 
@@ -64,7 +64,7 @@ public static class ClientsApi
         return Results.Ok(client.ToDetailedDto());
     }
 
-    internal static async Task<IResult> AddClientAsync(IUnitOfWork unitOfWork, ClientDto clientDto, IValidator<ClientDto> validator)
+    internal static async Task<IResult> AddAsync(IUnitOfWork unitOfWork, ClientDto clientDto, IValidator<ClientDto> validator)
     {
         if (clientDto == null)
             return Results.BadRequest("Client data is required.");
@@ -81,7 +81,7 @@ public static class ClientsApi
         return Results.Created($"/clients/{client.Id}", client.ToDetailedDto());
     }
 
-    internal static async Task<IResult> UpdateClientAsync(IUnitOfWork unitOfWork, Guid id, ClientDto clientDto, IValidator<ClientDto> validator)
+    internal static async Task<IResult> UpdateAsync(IUnitOfWork unitOfWork, Guid id, ClientDto clientDto, IValidator<ClientDto> validator)
     {
         if (id == Guid.Empty)
             return Results.BadRequest("Client id is required.");
@@ -108,7 +108,7 @@ public static class ClientsApi
         return Results.Ok(client.ToDetailedDto());
     }
 
-    internal static async Task<IResult> DeleteClientAsync(IUnitOfWork unitOfWork, Guid id)
+    internal static async Task<IResult> DeleteAsync(IUnitOfWork unitOfWork, Guid id)
     {
         try
         {
