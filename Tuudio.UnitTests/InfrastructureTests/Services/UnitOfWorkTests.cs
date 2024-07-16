@@ -14,6 +14,7 @@ public class UnitOfWorkTests
     private Mock<TuudioDbContext> dbContextMock;
     private Mock<DatabaseFacade> databaseFacadeMock;
     private Mock<IClientRepository> clientRepositoryMock;
+    private Mock<IActivityRepository> activityRepositoryMock;
     private UnitOfWork unitOfWork;
 
     [SetUp]
@@ -35,8 +36,9 @@ public class UnitOfWorkTests
         dbContextMock.Setup(c => c.Database).Returns(databaseFacadeMock.Object);
 
         clientRepositoryMock = new Mock<IClientRepository>();
+        activityRepositoryMock = new Mock<IActivityRepository>();
 
-        unitOfWork = new UnitOfWork(dbContextMock.Object, clientRepositoryMock.Object);
+        unitOfWork = new UnitOfWork(dbContextMock.Object, clientRepositoryMock.Object, activityRepositoryMock.Object);
     }
 
     [TearDown]

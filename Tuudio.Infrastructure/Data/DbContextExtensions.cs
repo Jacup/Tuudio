@@ -20,6 +20,7 @@ public static class DbContextExtensions
             .EnableDetailedErrors());
 
         services.AddScoped<IClientRepository, ClientRepository>();
+        services.AddScoped<IActivityRepository, ActivityRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
     }
 }

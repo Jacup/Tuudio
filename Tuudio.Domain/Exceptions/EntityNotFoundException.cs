@@ -3,7 +3,7 @@
 public class EntityNotFoundException<T> : Exception
 {
     public EntityNotFoundException(Guid entityId)
-        : base($"Entity of type '{typeof(T)}' with ID = '{entityId}' not found")
+        : base($"Entity of type '{typeof(T).Name}' with ID = '{entityId}' not found")
     {
         EntityId = entityId;
     }

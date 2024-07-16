@@ -21,7 +21,8 @@ public static class Configuration
 
         builder.Services
             .AddFluentValidationAutoValidation()
-            .AddValidatorsFromAssemblyContaining<ClientDtoValidator>();
+            .AddValidatorsFromAssemblyContaining<ClientDtoValidator>()
+            .AddValidatorsFromAssemblyContaining<ActivityDtoValidator>();
 
         builder.Services
             .AddEndpointsApiExplorer()
@@ -40,5 +41,6 @@ public static class Configuration
         app.UseHttpsRedirection();
 
         app.MapGroup("/api/clients").MapClientsApi();
+        app.MapGroup("/api/activities").MapActivitiesApi();
     }
 }
