@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Tuudio.Domain.Entities.Activities;
 using Tuudio.Domain.Entities.PassTemplates;
 using Tuudio.Domain.Enums;
 
@@ -54,6 +53,11 @@ public class PassTemplateConfiguration : IEntityTypeConfiguration<PassTemplate>
                 Period = Period.Month
             });
         });
-            
+
+        builder.HasMany(e => e.Activities).WithMany(e => e.PassTemplates).UsingEntity(e =>
+        e.HasData(
+        [
+            new { PassTemplatesId = new Guid("00000000-0000-0000-0010-000000000000"), ActivitiesId = new Guid("00000000-0000-0000-0001-000000000001") }
+        ]));
     }
 }

@@ -14,5 +14,5 @@ public class PassTemplate : DbObject
 
     public string? Description { get; set; }
 
-    //public ICollection<Activity> Activities { get; set; } = [];
+    public ICollection<Activity> Activities { get; set; } = [];
 }

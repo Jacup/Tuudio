@@ -8,5 +8,5 @@ public class Activity : DbObject
 
     public string? Description { get; set; }
 
-    //public ICollection<PassTemplate> PassTemplates { get; set; } = [];
+    public ICollection<PassTemplate> PassTemplates { get; set; } = [];
 }
