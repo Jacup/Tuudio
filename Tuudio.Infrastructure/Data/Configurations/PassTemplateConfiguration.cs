@@ -33,12 +33,27 @@ public class PassTemplateConfiguration : IEntityTypeConfiguration<PassTemplate>
         {
             price.Property(p => p.Amount).IsRequired();
             price.Property(p => p.Period).IsRequired();
+
+            price.HasData(new
+            {
+                PassTemplateId = new Guid("00000000-0000-0000-0010-000000000000"),
+                Amount = 100.0M,
+                Period = Period.Month
+            });
         });
 
         builder.OwnsOne(e => e.Duration, duration =>
         {
             duration.Property(d => d.Amount).IsRequired();
             duration.Property(d => d.Period).IsRequired();
+
+            duration.HasData(new
+            {
+                PassTemplateId = new Guid("00000000-0000-0000-0010-000000000000"),
+                Amount = 3,
+                Period = Period.Month
+            });
         });
+            
     }
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Tuudio.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using Tuudio.Infrastructure.Data;
 namespace Tuudio.Infrastructure.Migrations
 {
     [DbContext(typeof(TuudioDbContext))]
-    partial class TuudioDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240722193247_Add_PassTemplatesV1")]
+    partial class Add_PassTemplatesV1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,6 +24,21 @@ namespace Tuudio.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
+
+            modelBuilder.Entity("ActivityPassTemplate", b =>
+                {
+                    b.Property<Guid>("ActivitiesId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("PassTemplatesId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("ActivitiesId", "PassTemplatesId");
+
+                    b.HasIndex("PassTemplatesId");
+
+                    b.ToTable("ActivityPassTemplate");
+                });
 
             modelBuilder.Entity("Tuudio.Domain.Entities.Activities.Activity", b =>
                 {
@@ -101,17 +119,6 @@ namespace Tuudio.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("PassTemplate");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("00000000-0000-0000-0010-000000000000"),
-                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Pass for yoga classes, unlimited entries, paid monthly, 3 months",
-                            Entries = 0,
-                            Name = "Monthly yoga pass",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        });
                 });
 
             modelBuilder.Entity("Tuudio.Domain.Entities.People.Client", b =>
@@ -166,6 +173,21 @@ namespace Tuudio.Infrastructure.Migrations
                         });
                 });
 
+            modelBuilder.Entity("ActivityPassTemplate", b =>
+                {
+                    b.HasOne("Tuudio.Domain.Entities.Activities.Activity", null)
+                        .WithMany()
+                        .HasForeignKey("ActivitiesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Tuudio.Domain.Entities.PassTemplates.PassTemplate", null)
+                        .WithMany()
+                        .HasForeignKey("PassTemplatesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Tuudio.Domain.Entities.PassTemplates.PassTemplate", b =>
                 {
                     b.OwnsOne("Tuudio.Domain.Entities.PassTemplates.Duration", "Duration", b1 =>
@@ -185,14 +207,6 @@ namespace Tuudio.Infrastructure.Migrations
 
                             b1.WithOwner()
                                 .HasForeignKey("PassTemplateId");
-
-                            b1.HasData(
-                                new
-                                {
-                                    PassTemplateId = new Guid("00000000-0000-0000-0010-000000000000"),
-                                    Amount = 3,
-                                    Period = 3
-                                });
                         });
 
                     b.OwnsOne("Tuudio.Domain.Entities.PassTemplates.Price", "Price", b1 =>
@@ -200,11 +214,11 @@ namespace Tuudio.Infrastructure.Migrations
                             b1.Property<Guid>("PassTemplateId")
                                 .HasColumnType("char(36)");
 
-                            b1.Property<decimal>("Amount")
-                                .HasColumnType("decimal(65,30)");
-
                             b1.Property<int>("Period")
                                 .HasColumnType("int");
+
+                            b1.Property<decimal>("PriceAmount")
+                                .HasColumnType("decimal(65,30)");
 
                             b1.HasKey("PassTemplateId");
 
@@ -212,14 +226,6 @@ namespace Tuudio.Infrastructure.Migrations
 
                             b1.WithOwner()
                                 .HasForeignKey("PassTemplateId");
-
-                            b1.HasData(
-                                new
-                                {
-                                    PassTemplateId = new Guid("00000000-0000-0000-0010-000000000000"),
-                                    Amount = 100.0m,
-                                    Period = 3
-                                });
                         });
 
                     b.Navigation("Duration")

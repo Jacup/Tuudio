@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Tuudio.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using Tuudio.Infrastructure.Data;
 namespace Tuudio.Infrastructure.Migrations
 {
     [DbContext(typeof(TuudioDbContext))]
-    partial class TuudioDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240722202745_Add_PassTemplatesV4")]
+    partial class Add_PassTemplatesV4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -185,14 +188,6 @@ namespace Tuudio.Infrastructure.Migrations
 
                             b1.WithOwner()
                                 .HasForeignKey("PassTemplateId");
-
-                            b1.HasData(
-                                new
-                                {
-                                    PassTemplateId = new Guid("00000000-0000-0000-0010-000000000000"),
-                                    Amount = 3,
-                                    Period = 3
-                                });
                         });
 
                     b.OwnsOne("Tuudio.Domain.Entities.PassTemplates.Price", "Price", b1 =>
@@ -212,14 +207,6 @@ namespace Tuudio.Infrastructure.Migrations
 
                             b1.WithOwner()
                                 .HasForeignKey("PassTemplateId");
-
-                            b1.HasData(
-                                new
-                                {
-                                    PassTemplateId = new Guid("00000000-0000-0000-0010-000000000000"),
-                                    Amount = 100.0m,
-                                    Period = 3
-                                });
                         });
 
                     b.Navigation("Duration")
