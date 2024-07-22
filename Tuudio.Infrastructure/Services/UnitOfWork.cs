@@ -20,6 +20,8 @@ public class UnitOfWork : IUnitOfWork, IDisposable
 
     public IActivityRepository ActivityRepository { get; private set; }
 
+    public IPassTemplateRepository PassTemplateRepository { get; private set; }
+
     public void Dispose() => _context.Dispose();
 
     public async Task<T> ExecuteAsync<T>(Func<Task<T>> action)

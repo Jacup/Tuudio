@@ -6,5 +6,7 @@ public interface IUnitOfWork
 
     IActivityRepository ActivityRepository { get; }
 
+    IPassTemplateRepository PassTemplateRepository { get; }
+
     Task<T> ExecuteAsync<T>(Func<Task<T>> action);
 }
