@@ -9,11 +9,16 @@ public class UnitOfWork : IUnitOfWork, IDisposable
 {
     private readonly TuudioDbContext _context;
 
-    public UnitOfWork(TuudioDbContext context, IClientRepository clientRepository, IActivityRepository activityRepository)
+    public UnitOfWork(
+        TuudioDbContext context, 
+        IClientRepository clientRepository, 
+        IActivityRepository activityRepository,
+        IPassTemplateRepository passTemplateRepository)
     {
         _context = context ?? throw new ArgumentNullException(nameof(context));
         ClientRepository = clientRepository;
         ActivityRepository = activityRepository;
+        PassTemplateRepository = passTemplateRepository;
     }
 
     public IClientRepository ClientRepository { get; private set; }

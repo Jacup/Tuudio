@@ -36,6 +36,13 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
         return await _dbSet.FindAsync(id);
     }
 
+    public virtual async Task<IEnumerable<T>> GetByIdsAsync(IEnumerable<Guid> ids)
+    {
+        return await _dbSet
+            .Where(entity => ids.Contains((Guid)typeof(T).GetProperty("Id")!.GetValue(entity)))
+            .ToListAsync();
+    }
+
     public virtual async Task InsertAsync(T entity)
     {
         await _dbSet.AddAsync(entity);
