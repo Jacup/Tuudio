@@ -10,6 +10,9 @@ namespace Tuudio.Endpoints;
 
 public static class PassTemplatesApi
 {
+    private const string MissingDtoDataErrorMessage = "PassTemplate data is required.";
+    private const string MissingIdErrorMessage = "PassTemplate id is required.";
+
     public static RouteGroupBuilder MapPassTemplatesApi(this RouteGroupBuilder group)
     {
         group
@@ -43,7 +46,7 @@ public static class PassTemplatesApi
             .Produces<string>(StatusCodes.Status404NotFound)
             .WithOpenApi();
 
-        return group.WithTags("passTemplates");
+        return group.WithTags("passtemplates");
     }
 
     internal static async Task<IResult> GetAsync(IUnitOfWork uow)
@@ -66,7 +69,7 @@ public static class PassTemplatesApi
     internal static async Task<IResult> AddAsync(IUnitOfWork uow, PassTemplateDto dto, IValidator<PassTemplateDto> validator)
     {
         if (dto == null)
-            return Results.BadRequest("PassTemplate data is required.");
+            return Results.BadRequest(MissingDtoDataErrorMessage);
 
         var validationResult = await validator.ValidateAsync(dto);
 
@@ -79,16 +82,16 @@ public static class PassTemplatesApi
 
         await uow.PassTemplateRepository.InsertAsync(passTemplate);
 
-        return Results.Created($"/passTemplates/{passTemplate.Id}", passTemplate.ToDetailedDto());
+        return Results.Created($"/passtemplates/{passTemplate.Id}", passTemplate.ToDetailedDto());
     }
 
     internal static async Task<IResult> UpdateAsync(IUnitOfWork uow, Guid id, PassTemplateDto dto, IValidator<PassTemplateDto> validator)
     {
         if (id == Guid.Empty)
-            return Results.BadRequest("PassTemplate id is required.");
+            return Results.BadRequest(MissingIdErrorMessage);
 
         if (dto == null)
-            return Results.BadRequest("PassTemplate data is required.");
+            return Results.BadRequest(MissingDtoDataErrorMessage);
 
         var validationResult = await validator.ValidateAsync(dto);
 
