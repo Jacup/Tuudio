@@ -15,6 +15,7 @@ public class UnitOfWorkTests
     private Mock<DatabaseFacade> databaseFacadeMock;
     private Mock<IClientRepository> clientRepositoryMock;
     private Mock<IActivityRepository> activityRepositoryMock;
+    private Mock<IPassTemplateRepository> passTemplateRepositoryMock;
     private UnitOfWork unitOfWork;
 
     [SetUp]
@@ -37,8 +38,9 @@ public class UnitOfWorkTests
 
         clientRepositoryMock = new Mock<IClientRepository>();
         activityRepositoryMock = new Mock<IActivityRepository>();
+        passTemplateRepositoryMock = new Mock<IPassTemplateRepository>();
 
-        unitOfWork = new UnitOfWork(dbContextMock.Object, clientRepositoryMock.Object, activityRepositoryMock.Object);
+        unitOfWork = new UnitOfWork(dbContextMock.Object, clientRepositoryMock.Object, activityRepositoryMock.Object, passTemplateRepositoryMock.Object);
     }
 
     [TearDown]

@@ -9,16 +9,23 @@ public class UnitOfWork : IUnitOfWork, IDisposable
 {
     private readonly TuudioDbContext _context;
 
-    public UnitOfWork(TuudioDbContext context, IClientRepository clientRepository, IActivityRepository activityRepository)
+    public UnitOfWork(
+        TuudioDbContext context, 
+        IClientRepository clientRepository, 
+        IActivityRepository activityRepository,
+        IPassTemplateRepository passTemplateRepository)
     {
         _context = context ?? throw new ArgumentNullException(nameof(context));
         ClientRepository = clientRepository;
         ActivityRepository = activityRepository;
+        PassTemplateRepository = passTemplateRepository;
     }
 
     public IClientRepository ClientRepository { get; private set; }
 
     public IActivityRepository ActivityRepository { get; private set; }
+
+    public IPassTemplateRepository PassTemplateRepository { get; private set; }
 
     public void Dispose() => _context.Dispose();
 

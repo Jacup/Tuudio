@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Tuudio.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using Tuudio.Infrastructure.Data;
 namespace Tuudio.Infrastructure.Migrations
 {
     [DbContext(typeof(TuudioDbContext))]
-    partial class TuudioDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240722203529_Add_PassTemplatesV5")]
+    partial class Add_PassTemplatesV5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,28 +24,6 @@ namespace Tuudio.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
-
-            modelBuilder.Entity("ActivityPassTemplate", b =>
-                {
-                    b.Property<Guid>("ActivitiesId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid>("PassTemplatesId")
-                        .HasColumnType("char(36)");
-
-                    b.HasKey("ActivitiesId", "PassTemplatesId");
-
-                    b.HasIndex("PassTemplatesId");
-
-                    b.ToTable("ActivityPassTemplate");
-
-                    b.HasData(
-                        new
-                        {
-                            ActivitiesId = new Guid("00000000-0000-0000-0001-000000000001"),
-                            PassTemplatesId = new Guid("00000000-0000-0000-0010-000000000000")
-                        });
-                });
 
             modelBuilder.Entity("Tuudio.Domain.Entities.Activities.Activity", b =>
                 {
@@ -186,21 +167,6 @@ namespace Tuudio.Infrastructure.Migrations
                             LastName = "Doe",
                             UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
-                });
-
-            modelBuilder.Entity("ActivityPassTemplate", b =>
-                {
-                    b.HasOne("Tuudio.Domain.Entities.Activities.Activity", null)
-                        .WithMany()
-                        .HasForeignKey("ActivitiesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Tuudio.Domain.Entities.PassTemplates.PassTemplate", null)
-                        .WithMany()
-                        .HasForeignKey("PassTemplatesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Tuudio.Domain.Entities.PassTemplates.PassTemplate", b =>
