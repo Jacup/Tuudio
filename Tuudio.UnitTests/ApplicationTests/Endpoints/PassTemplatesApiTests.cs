@@ -176,7 +176,7 @@ public class PassTemplatesApiTests
 
         var id = castedResult.Value.Id;
         castedResult.Location.ShouldNotBeNull();
-        castedResult.Location.ShouldBe($"/passTemplates/{id}");
+        castedResult.Location.ShouldBe($"/passtemplates/{id}");
     }
 
     [Test]
