@@ -3,11 +3,8 @@ using FluentValidation.Results;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Moq;
 using Tuudio.Domain.Entities.Activities;
-using Tuudio.Domain.Entities.People;
 using Tuudio.Domain.Exceptions;
 using Tuudio.DTOs;
-using Tuudio.DTOs.People;
-using Tuudio.DTOs.People.Detailed;
 using Tuudio.Endpoints;
 using Tuudio.Infrastructure.Services.Interfaces;
 
@@ -28,7 +25,7 @@ public class ActivitiesApiTests
     private static readonly Guid firstGuid = new("00000000-0000-0000-0000-000000000001");
     private static readonly Guid secondGuid = new("00000000-0000-0000-0000-000000000002");
 
-    [SetUp] 
+    [SetUp]
     public void SetUp()
     {
         repositoryMock = new();
