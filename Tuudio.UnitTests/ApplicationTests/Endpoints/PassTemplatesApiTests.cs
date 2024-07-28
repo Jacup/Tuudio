@@ -1,15 +1,13 @@
-﻿using FluentValidation.Results;
-using FluentValidation;
+﻿using FluentValidation;
+using FluentValidation.Results;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Moq;
 using Tuudio.Domain.Entities.Passes;
+using Tuudio.Domain.Enums;
 using Tuudio.Domain.Exceptions;
 using Tuudio.DTOs;
 using Tuudio.Endpoints;
 using Tuudio.Infrastructure.Services.Interfaces;
-using Tuudio.Validators;
-using Tuudio.Domain.Enums;
-using Tuudio.Domain.Entities.Activities;
 
 namespace Tuudio.UnitTests.ApplicationTests.Endpoints;
 

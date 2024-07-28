@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Reflection;
+using Tuudio.Domain.Entities.People;
 
 namespace Tuudio.Infrastructure.Data;
 

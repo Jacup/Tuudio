@@ -67,5 +67,8 @@ public class PassTemplateConfiguration : IEntityTypeConfiguration<PassTemplate>
             .WithOne(child => child.PassTemplate)
             .HasForeignKey(child => child.PassTemplateId)
             .IsRequired();
+
+        builder.Navigation(e => e.Passes).AutoInclude();
+        builder.Navigation(e => e.Activities).AutoInclude();
     }
 }

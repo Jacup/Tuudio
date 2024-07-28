@@ -42,6 +42,30 @@ internal class PassTemplateFactory
                 Name = "EMS Training",
                 Description = "Basic 60min EMS training",
             },
+        ],
+
+        Passes =
+        [
+            new Pass()
+            {
+                Id = new Guid("00000000-0000-0000-0003-000000000001"),
+                CreatedDate = DateTime.Now,
+                UpdatedDate = DateTime.Now.AddDays(1),
+                FromDate = PassFactory.FromDate,
+                ToDate = PassFactory.ToDate,
+                ClientId = new Guid("00000000-0000-0000-0000-000000000001"),
+                PassTemplateId = new Guid("00000000-0000-0000-0002-000000000001"),
+            },
+            new Pass()
+            {
+                Id = new Guid("00000000-0000-0000-0003-000000000002"),
+                CreatedDate = DateTime.Now,
+                UpdatedDate = DateTime.Now.AddDays(1),
+                FromDate = PassFactory.FromDate,
+                ToDate = PassFactory.ToDate,
+                ClientId = new Guid("00000000-0000-0000-0000-000000000001"),
+                PassTemplateId = new Guid("00000000-0000-0000-0002-000000000001"),
+            }
         ]
     };
 
@@ -65,6 +89,11 @@ internal class PassTemplateFactory
         [
             new Guid("00000000-0000-0000-0001-000000000001"),
             new Guid("00000000-0000-0000-0001-000000000002"),
+        ],
+        Passes =
+        [
+            new Guid("00000000-0000-0000-0003-000000000001"),
+            new Guid("00000000-0000-0000-0003-000000000001")
         ]
     };
 
@@ -84,6 +113,11 @@ internal class PassTemplateFactory
         [
             new Guid("00000000-0000-0000-0001-000000000001"),
             new Guid("00000000-0000-0000-0001-000000000002"),
+        ],
+        Passes =
+        [
+            new Guid("00000000-0000-0000-0003-000000000001"),
+            new Guid("00000000-0000-0000-0003-000000000001")
         ]
     };
 }

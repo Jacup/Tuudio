@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Tuudio.Domain.Entities.Passes;
 using Tuudio.Domain.Entities.People;
 
 namespace Tuudio.Infrastructure.Data.Configurations;
@@ -41,6 +40,7 @@ public class ClientConfiguration : IEntityTypeConfiguration<Client>
                 LastName = "Doe",
             });
 
+        builder.Navigation(e => e.Passes).AutoInclude();
         builder.ToTable("Clients");
     }
 }

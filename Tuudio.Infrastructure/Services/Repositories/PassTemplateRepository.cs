@@ -7,21 +7,6 @@ namespace Tuudio.Infrastructure.Services.Repositories;
 
 public class PassTemplateRepository(TuudioDbContext context) : GenericRepository<PassTemplate>(context), IPassTemplateRepository
 {
-
-    public async override Task<IEnumerable<PassTemplate>> GetAllAsync()
-    {
-        return await DbSet
-            .Include(e => e.Activities)
-            .ToListAsync();
-    }
-
-    public async override Task<PassTemplate?> GetByIdAsync(Guid id)
-    {
-        return await DbSet
-            .Include(e => e.Activities)
-            .SingleOrDefaultAsync(e => e.Id == id);
-    }
-
     public async override Task<IEnumerable<PassTemplate>> GetByIdsAsync(IEnumerable<Guid> ids)
     {
         if (ids == null || !ids.Any())
