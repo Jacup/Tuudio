@@ -1,10 +1,10 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
+using Mapster;
 using Tuudio.Domain.Entities.People;
 using Tuudio.Domain.Exceptions;
 using Tuudio.DTOs.People;
 using Tuudio.DTOs.People.Detailed;
-using Tuudio.Extensions.Clients;
 using Tuudio.Infrastructure.Services.Interfaces;
 
 namespace Tuudio.Endpoints;
@@ -51,7 +51,7 @@ public static class ClientsApi
     {
         var clients = await unitOfWork.ClientRepository.GetAllAsync();
 
-        return Results.Ok(clients.Select(c => c.ToDetailedDto()));
+        return Results.Ok(clients.Select(c => c.Adapt<ClientDetailedDto>()));
     }
 
     internal static async Task<IResult> GetByIdAsync(IUnitOfWork unitOfWork, Guid id)
@@ -61,7 +61,7 @@ public static class ClientsApi
         if (client == null)
             return Results.NotFound($"Client with ID \"{id}\" not found");
 
-        return Results.Ok(client.ToDetailedDto());
+        return Results.Ok(client.Adapt<ClientDetailedDto>());
     }
 
     internal static async Task<IResult> AddAsync(IUnitOfWork unitOfWork, ClientDto clientDto, IValidator<ClientDto> validator)
@@ -74,11 +74,12 @@ public static class ClientsApi
         if (!validationResult.IsValid)
             return Results.BadRequest(validationResult.Errors);
 
-        var client = clientDto.FromDto();
+        var client = clientDto.Adapt<Client>();
+        client.Id = Guid.NewGuid();
 
         await unitOfWork.ClientRepository.InsertAsync(client);
 
-        return Results.Created($"/clients/{client.Id}", client.ToDetailedDto());
+        return Results.Created($"/clients/{client.Id}", client.Adapt<ClientDetailedDto>());
     }
 
     internal static async Task<IResult> UpdateAsync(IUnitOfWork unitOfWork, Guid id, ClientDto clientDto, IValidator<ClientDto> validator)
@@ -94,7 +95,8 @@ public static class ClientsApi
         if (!validationResult.IsValid)
             return Results.BadRequest(validationResult.Errors);
 
-        var client = clientDto.FromDto(id);
+        var client = clientDto.Adapt<Client>();
+        client.Id = id;
 
         try
         {
@@ -105,7 +107,7 @@ public static class ClientsApi
             return Results.NotFound(e.Message);
         }
 
-        return Results.Ok(client.ToDetailedDto());
+        return Results.Ok(client.Adapt<ClientDetailedDto>());
     }
 
     internal static async Task<IResult> DeleteAsync(IUnitOfWork unitOfWork, Guid id)

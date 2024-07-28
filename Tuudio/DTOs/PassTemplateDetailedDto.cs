@@ -18,5 +18,5 @@ public record PassTemplateDetailedDto : DbObjectDto
 
     public string? Description { get; set; }
 
-    public IEnumerable<Guid> Activities { get; set; }
+    public ICollection<Guid> Activities { get; set; } = [];
 }

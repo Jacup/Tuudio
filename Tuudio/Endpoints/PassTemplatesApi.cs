@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
+using Mapster;
 using Tuudio.Domain.Entities.PassTemplates;
 using Tuudio.Domain.Exceptions;
 using Tuudio.DTOs;
@@ -53,7 +54,7 @@ public static class PassTemplatesApi
     {
         var passTemplates = await uow.PassTemplateRepository.GetAllAsync();
 
-        return Results.Ok(passTemplates.Select(pt => pt.ToDetailedDto()));
+        return Results.Ok(passTemplates.Select(pt => pt.Adapt<PassTemplateDetailedDto>()));
     }
 
     internal static async Task<IResult> GetByIdAsync(IUnitOfWork uow, Guid id)
@@ -63,7 +64,7 @@ public static class PassTemplatesApi
         if (passTemplate == null)
             return Results.NotFound($"PassTemplate with ID \"{id}\" not found");
 
-        return Results.Ok(passTemplate.ToDetailedDto());
+        return Results.Ok(passTemplate.Adapt<PassTemplateDetailedDto>());
     }
 
     internal static async Task<IResult> AddAsync(IUnitOfWork uow, PassTemplateDto dto, IValidator<PassTemplateDto> validator)
@@ -78,11 +79,12 @@ public static class PassTemplatesApi
 
         var activities = await uow.ActivityRepository.GetByIdsAsync(dto.Activities);
 
-        var passTemplate = dto.FromDto(activities);
+        var passTemplate = dto.Adapt<PassTemplate>();
+        passTemplate.Id = Guid.NewGuid();
 
         await uow.PassTemplateRepository.InsertAsync(passTemplate);
 
-        return Results.Created($"/passtemplates/{passTemplate.Id}", passTemplate.ToDetailedDto());
+        return Results.Created($"/passtemplates/{passTemplate.Id}", passTemplate.Adapt<PassTemplateDetailedDto>());
     }
 
     internal static async Task<IResult> UpdateAsync(IUnitOfWork uow, Guid id, PassTemplateDto dto, IValidator<PassTemplateDto> validator)
@@ -100,7 +102,9 @@ public static class PassTemplatesApi
 
         var activities = await uow.ActivityRepository.GetByIdsAsync(dto.Activities);
 
-        var passTemplate = dto.FromDto(id, activities);
+        var passTemplate = dto.Adapt<PassTemplate>();
+        passTemplate.Id = Guid.NewGuid();
+        passTemplate.Activities = activities.ToList();
 
         try
         {
@@ -111,7 +115,7 @@ public static class PassTemplatesApi
             return Results.NotFound(e.Message);
         }
 
-        return Results.Ok(passTemplate.ToDetailedDto());
+        return Results.Ok(passTemplate.Adapt<PassTemplateDetailedDto>());
     }
 
     internal static async Task<IResult> DeleteAsync(IUnitOfWork uow, Guid id)
