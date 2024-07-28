@@ -6,9 +6,11 @@ namespace Tuudio.UnitTests.Helpers.DataFactories;
 
 internal class ClientFactory
 {
-    internal static Client GetClient() => new()
+    internal static Client GetClient() => GetClient(new Guid("00000000-0000-0000-0000-000000000001"));
+
+    internal static Client GetClient(Guid id) => new()
     {
-        Id = Guid.Parse("00000000-0000-0000-0000-000000000001"),
+        Id = id,
 
         CreatedDate = DateTime.Now,
         UpdatedDate = DateTime.Now.AddDays(1),

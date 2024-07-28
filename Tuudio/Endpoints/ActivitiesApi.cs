@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
+using Mapster;
 using Tuudio.Domain.Entities.Activities;
 using Tuudio.Domain.Exceptions;
 using Tuudio.DTOs;
@@ -50,7 +51,7 @@ public static class ActivitiesApi
     {
         var activities = await uow.ActivityRepository.GetAllAsync();
 
-        return Results.Ok(activities.Select(a => a.ToDetailedDto()));
+        return Results.Ok(activities.Select(a => a.Adapt<ActivityDetailedDto>()));
     }
 
     internal static async Task<IResult> GetByIdAsync(IUnitOfWork uow, Guid id)
@@ -60,7 +61,7 @@ public static class ActivitiesApi
         if (activity == null)
             return Results.NotFound($"Activity with ID \"{id}\" not found");
 
-        return Results.Ok(activity.ToDetailedDto());
+        return Results.Ok(activity.Adapt<ActivityDetailedDto>());
     }
 
     internal static async Task<IResult> AddAsync(IUnitOfWork uow, ActivityDto dto, IValidator<ActivityDto> validator)
@@ -73,11 +74,18 @@ public static class ActivitiesApi
         if (!validationResult.IsValid)
             return Results.BadRequest(validationResult.Errors);
 
-        var activity = dto.FromDto();
+        var passTemplates = await uow.PassTemplateRepository.GetByIdsAsync(dto.PassTemplates);
+
+        if (passTemplates.Count() != dto.PassTemplates.Count)
+            return Results.BadRequest("Some PassTemplate IDs is invalid");
+
+        var activity = dto.Adapt<Activity>();
+        activity.Id = Guid.NewGuid();
+        activity.PassTemplates = passTemplates.ToList();
 
         await uow.ActivityRepository.InsertAsync(activity);
 
-        return Results.Created($"/activities/{activity.Id}", activity.ToDetailedDto());
+        return Results.Created($"/activities/{activity.Id}", activity.Adapt<ActivityDetailedDto>());
     }
 
     internal static async Task<IResult> UpdateAsync(IUnitOfWork uow, Guid id, ActivityDto dto, IValidator<ActivityDto> validator)
@@ -93,7 +101,14 @@ public static class ActivitiesApi
         if (!validationResult.IsValid)
             return Results.BadRequest(validationResult.Errors);
 
-        var activity = dto.FromDto(id);
+        var passTemplates = await uow.PassTemplateRepository.GetByIdsAsync(dto.PassTemplates);
+
+        if (passTemplates.Count() != dto.PassTemplates.Count)
+            return Results.BadRequest("Some PassTemplate IDs is invalid");
+
+        var activity = dto.Adapt<Activity>();
+        activity.Id = id;
+        activity.PassTemplates = passTemplates.ToList();
 
         try
         {
@@ -104,7 +119,7 @@ public static class ActivitiesApi
             return Results.NotFound(e.Message);
         }
 
-        return Results.Ok(activity.ToDetailedDto());
+        return Results.Ok(activity.Adapt<ActivityDetailedDto>());
     }
 
     internal static async Task<IResult> DeleteAsync(IUnitOfWork uow, Guid id)

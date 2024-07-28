@@ -7,13 +7,15 @@ using Tuudio.Domain.Exceptions;
 using Tuudio.DTOs;
 using Tuudio.Endpoints;
 using Tuudio.Infrastructure.Services.Interfaces;
+using Tuudio.Services.Mapping;
 
 namespace Tuudio.UnitTests.ApplicationTests.Endpoints;
 
 [TestFixture]
 public class ActivitiesApiTests
 {
-    private Mock<IActivityRepository> repositoryMock;
+    private Mock<IActivityRepository> activityRepositoryMock;
+    private Mock<IPassTemplateRepository> passTemplatesRepositoryMock;
     private Mock<IUnitOfWork> uowMock;
 
     private readonly List<Activity> twoActivitiesList =
@@ -28,7 +30,10 @@ public class ActivitiesApiTests
     [SetUp]
     public void SetUp()
     {
-        repositoryMock = new();
+        MapsterConfiguration.Configure();
+
+        activityRepositoryMock = new();
+        passTemplatesRepositoryMock = new();
         uowMock = new();
     }
 
@@ -36,8 +41,8 @@ public class ActivitiesApiTests
     public async Task GetAsync_MultipleObjects_EndpointShouldReturnValidResults()
     {
         // Arrange
-        repositoryMock.Setup(m => m.GetAllAsync()).ReturnsAsync(twoActivitiesList);
-        uowMock.Setup(m => m.ActivityRepository).Returns(repositoryMock.Object);
+        activityRepositoryMock.Setup(m => m.GetAllAsync()).ReturnsAsync(twoActivitiesList);
+        uowMock.Setup(m => m.ActivityRepository).Returns(activityRepositoryMock.Object);
 
         // Act
         var result = await ActivitiesApi.GetAsync(uowMock.Object);
@@ -56,8 +61,8 @@ public class ActivitiesApiTests
     public async Task GetAsync_NoObjects_EndpointShouldReturnValidResults()
     {
         // Arrange
-        repositoryMock.Setup(m => m.GetAllAsync()).ReturnsAsync([]);
-        uowMock.Setup(m => m.ActivityRepository).Returns(repositoryMock.Object);
+        activityRepositoryMock.Setup(m => m.GetAllAsync()).ReturnsAsync([]);
+        uowMock.Setup(m => m.ActivityRepository).Returns(activityRepositoryMock.Object);
 
         // Act
         var result = await ActivitiesApi.GetAsync(uowMock.Object);
@@ -78,8 +83,8 @@ public class ActivitiesApiTests
         // Arrange
         var activity = twoActivitiesList.First();
 
-        repositoryMock.Setup(m => m.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(activity);
-        uowMock.Setup(m => m.ActivityRepository).Returns(repositoryMock.Object);
+        activityRepositoryMock.Setup(m => m.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(activity);
+        uowMock.Setup(m => m.ActivityRepository).Returns(activityRepositoryMock.Object);
 
         // Act
         var result = await ActivitiesApi.GetByIdAsync(uowMock.Object, activity.Id);
@@ -100,8 +105,8 @@ public class ActivitiesApiTests
     public async Task GetClientByIdAsync_NotFoundObjectWithGivenId_ShouldReturn404AndNoResults()
     {
         // Arrange
-        repositoryMock.Setup(m => m.GetByIdAsync(It.IsAny<Guid>()));
-        uowMock.Setup(m => m.ActivityRepository).Returns(repositoryMock.Object);
+        activityRepositoryMock.Setup(m => m.GetByIdAsync(It.IsAny<Guid>()));
+        uowMock.Setup(m => m.ActivityRepository).Returns(activityRepositoryMock.Object);
 
         // Act
         var result = await ActivitiesApi.GetByIdAsync(uowMock.Object, It.IsAny<Guid>());
@@ -127,7 +132,11 @@ public class ActivitiesApiTests
 
         uowMock
             .Setup(m => m.ActivityRepository)
-            .Returns(repositoryMock.Object);
+            .Returns(activityRepositoryMock.Object);
+
+        uowMock
+            .Setup(m => m.PassTemplateRepository)
+            .Returns(passTemplatesRepositoryMock.Object);
 
         var validatorMock = new Mock<IValidator<ActivityDto>>();
         validatorMock
@@ -160,7 +169,7 @@ public class ActivitiesApiTests
         // Arrange
         uowMock
             .Setup(m => m.ActivityRepository)
-            .Returns(repositoryMock.Object);
+            .Returns(activityRepositoryMock.Object);
 
         var validatorMock = new Mock<IValidator<ActivityDto>>();
         validatorMock
@@ -194,7 +203,7 @@ public class ActivitiesApiTests
 
         uowMock
             .Setup(m => m.ActivityRepository)
-            .Returns(repositoryMock.Object);
+            .Returns(activityRepositoryMock.Object);
 
         var validatorMock = new Mock<IValidator<ActivityDto>>();
         validatorMock
@@ -225,7 +234,10 @@ public class ActivitiesApiTests
 
         uowMock
             .Setup(m => m.ActivityRepository)
-            .Returns(repositoryMock.Object);
+            .Returns(activityRepositoryMock.Object);
+        uowMock
+            .Setup(m => m.PassTemplateRepository)
+            .Returns(passTemplatesRepositoryMock.Object);
 
         var validatorMock = new Mock<IValidator<ActivityDto>>();
         validatorMock
@@ -255,7 +267,7 @@ public class ActivitiesApiTests
         // Arrange
         uowMock
             .Setup(m => m.ActivityRepository)
-            .Returns(repositoryMock.Object);
+            .Returns(activityRepositoryMock.Object);
 
         var validatorMock = new Mock<IValidator<ActivityDto>>();
         validatorMock
@@ -286,7 +298,7 @@ public class ActivitiesApiTests
 
         uowMock
             .Setup(m => m.ActivityRepository)
-            .Returns(repositoryMock.Object);
+            .Returns(activityRepositoryMock.Object);
 
         var validatorMock = new Mock<IValidator<ActivityDto>>();
         validatorMock
@@ -320,7 +332,7 @@ public class ActivitiesApiTests
 
         uowMock
             .Setup(m => m.ActivityRepository)
-            .Returns(repositoryMock.Object);
+            .Returns(activityRepositoryMock.Object);
 
         var validatorMock = new Mock<IValidator<ActivityDto>>();
         validatorMock
@@ -346,7 +358,7 @@ public class ActivitiesApiTests
         // Arrange
         uowMock
             .Setup(m => m.ActivityRepository)
-            .Returns(repositoryMock.Object);
+            .Returns(activityRepositoryMock.Object);
 
         // Act
         var result = await ActivitiesApi.DeleteAsync(uowMock.Object, It.IsAny<Guid>());
@@ -363,13 +375,13 @@ public class ActivitiesApiTests
     public async Task DeleteAsync_InvalidIdProvided_ShouldReturn404()
     {
         // Arrange
-        repositoryMock
+        activityRepositoryMock
             .Setup(m => m.DeleteAsync(It.IsAny<Guid>()))
             .ThrowsAsync(new EntityNotFoundException<Activity>(It.IsAny<Guid>()));
 
         uowMock
             .Setup(m => m.ActivityRepository)
-            .Returns(repositoryMock.Object);
+            .Returns(activityRepositoryMock.Object);
 
         // Act
         var result = await ActivitiesApi.DeleteAsync(uowMock.Object, It.IsAny<Guid>());

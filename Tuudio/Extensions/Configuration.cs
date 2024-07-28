@@ -3,6 +3,7 @@ using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Http.Json;
 using System.Text.Json.Serialization;
 using Tuudio.Endpoints;
+using Tuudio.Services.Mapping;
 using Tuudio.Validators;
 
 namespace Tuudio.Extensions;
@@ -29,6 +30,8 @@ public static class Configuration
             .AddEndpointsApiExplorer()
             .AddSwaggerGen(o => o.SupportNonNullableReferenceTypes())
             .AddLogging();
+
+        MapsterConfiguration.Configure();
     }
 
     public static void RegisterMiddleware(this WebApplication app)
