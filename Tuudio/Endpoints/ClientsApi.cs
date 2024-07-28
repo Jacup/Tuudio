@@ -51,7 +51,7 @@ public static class ClientsApi
     {
         var clients = await unitOfWork.ClientRepository.GetAllAsync();
 
-        return Results.Ok(clients.Adapt<ClientDetailedDto>());
+        return Results.Ok(clients.Select(c => c.Adapt<ClientDetailedDto>()));
     }
 
     internal static async Task<IResult> GetByIdAsync(IUnitOfWork unitOfWork, Guid id)
@@ -75,6 +75,7 @@ public static class ClientsApi
             return Results.BadRequest(validationResult.Errors);
 
         var client = clientDto.Adapt<Client>();
+        client.Id = Guid.NewGuid();
 
         await unitOfWork.ClientRepository.InsertAsync(client);
 
@@ -95,6 +96,7 @@ public static class ClientsApi
             return Results.BadRequest(validationResult.Errors);
 
         var client = clientDto.Adapt<Client>();
+        client.Id = id;
 
         try
         {
