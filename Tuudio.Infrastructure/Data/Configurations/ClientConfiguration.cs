@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Tuudio.Domain.Entities.Passes;
 using Tuudio.Domain.Entities.People;
 
 namespace Tuudio.Infrastructure.Data.Configurations;
@@ -12,11 +13,18 @@ public class ClientConfiguration : IEntityTypeConfiguration<Client>
 
         builder.Property(e => e.FirstName)
             .IsRequired()
-            .HasMaxLength(50);
+            .HasMaxLength(64);
 
         builder.Property(e => e.LastName)
-            .IsRequired().IsRequired()
-            .HasMaxLength(50);
+            .IsRequired()
+            .HasMaxLength(64);
+
+        builder
+            .HasMany(e => e.Passes)
+            .WithOne(e => e.Client)
+            .HasForeignKey(e => e.ClientId)
+            .IsRequired();
+
 
         builder.HasData(
             new Client()

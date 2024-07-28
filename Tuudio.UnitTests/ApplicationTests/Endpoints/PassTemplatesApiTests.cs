@@ -2,7 +2,7 @@
 using FluentValidation;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Moq;
-using Tuudio.Domain.Entities.PassTemplates;
+using Tuudio.Domain.Entities.Passes;
 using Tuudio.Domain.Exceptions;
 using Tuudio.DTOs;
 using Tuudio.Endpoints;

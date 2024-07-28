@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Tuudio.Domain.Entities.PassTemplates;
+using Tuudio.Domain.Entities.Passes;
 using Tuudio.Infrastructure.Data;
 using Tuudio.Infrastructure.Services.Interfaces;
 

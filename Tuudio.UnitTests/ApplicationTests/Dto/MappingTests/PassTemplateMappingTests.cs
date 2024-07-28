@@ -1,5 +1,5 @@
 ﻿using Mapster;
-using Tuudio.Domain.Entities.PassTemplates;
+using Tuudio.Domain.Entities.Passes;
 using Tuudio.DTOs;
 using Tuudio.UnitTests.Helpers.DataFactories;
 

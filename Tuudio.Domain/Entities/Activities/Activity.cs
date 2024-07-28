@@ -1,4 +1,4 @@
-﻿using Tuudio.Domain.Entities.PassTemplates;
+﻿using Tuudio.Domain.Entities.Passes;
 
 namespace Tuudio.Domain.Entities.Activities;
 

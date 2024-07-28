@@ -1,6 +1,6 @@
 ﻿using Mapster;
 using Tuudio.Domain.Entities.Activities;
-using Tuudio.Domain.Entities.PassTemplates;
+using Tuudio.Domain.Entities.Passes;
 using Tuudio.DTOs;
 
 namespace Tuudio.Services.Mapping;
