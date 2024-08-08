@@ -1,6 +1,6 @@
 ﻿using Tuudio.Domain.Enums;
 
-namespace Tuudio.Domain.Entities.PassTemplates;
+namespace Tuudio.Domain.Entities.Passes;
 
 public class Price
 {

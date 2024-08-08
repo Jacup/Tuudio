@@ -8,5 +8,7 @@ public interface IUnitOfWork
 
     IPassTemplateRepository PassTemplateRepository { get; }
 
+    IPassRepository PassRepository { get; }
+
     Task<T> ExecuteAsync<T>(Func<Task<T>> action);
 }

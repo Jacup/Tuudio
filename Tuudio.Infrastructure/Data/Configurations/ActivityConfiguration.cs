@@ -36,6 +36,8 @@ public class ActivityConfiguration : IEntityTypeConfiguration<Activity>
                 Name = "EMS training",
             });
 
+
+        builder.Navigation(e => e.PassTemplates).AutoInclude();
         builder.ToTable("Activities");
     }
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Tuudio.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using Tuudio.Infrastructure.Data;
 namespace Tuudio.Infrastructure.Migrations
 {
     [DbContext(typeof(TuudioDbContext))]
-    partial class TuudioDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240728175901_Add_PassClient")]
+    partial class Add_PassClient
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -40,7 +43,7 @@ namespace Tuudio.Infrastructure.Migrations
                         new
                         {
                             ActivitiesId = new Guid("00000000-0000-0000-0001-000000000001"),
-                            PassTemplatesId = new Guid("00000000-0000-0000-0002-000000000001")
+                            PassTemplatesId = new Guid("00000000-0000-0000-0010-000000000000")
                         });
                 });
 
@@ -126,18 +129,6 @@ namespace Tuudio.Infrastructure.Migrations
                     b.HasIndex("PassTemplateId");
 
                     b.ToTable("Pass");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("00000000-0000-0000-0003-000000000001"),
-                            ClientId = new Guid("00000000-0000-0000-0000-000000000001"),
-                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FromDate = new DateOnly(2024, 7, 28),
-                            PassTemplateId = new Guid("00000000-0000-0000-0002-000000000001"),
-                            ToDate = new DateOnly(2024, 10, 28),
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        });
                 });
 
             modelBuilder.Entity("Tuudio.Domain.Entities.Passes.PassTemplate", b =>
@@ -172,7 +163,7 @@ namespace Tuudio.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("00000000-0000-0000-0002-000000000001"),
+                            Id = new Guid("00000000-0000-0000-0010-000000000000"),
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Pass for yoga classes, unlimited entries, paid monthly, 3 months",
                             Entries = 0,
@@ -257,7 +248,7 @@ namespace Tuudio.Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("Tuudio.Domain.Entities.Passes.PassTemplate", "PassTemplate")
-                        .WithMany("Passes")
+                        .WithMany()
                         .HasForeignKey("PassTemplateId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -290,7 +281,7 @@ namespace Tuudio.Infrastructure.Migrations
                             b1.HasData(
                                 new
                                 {
-                                    PassTemplateId = new Guid("00000000-0000-0000-0002-000000000001"),
+                                    PassTemplateId = new Guid("00000000-0000-0000-0010-000000000000"),
                                     Amount = 3,
                                     Period = 3
                                 });
@@ -317,7 +308,7 @@ namespace Tuudio.Infrastructure.Migrations
                             b1.HasData(
                                 new
                                 {
-                                    PassTemplateId = new Guid("00000000-0000-0000-0002-000000000001"),
+                                    PassTemplateId = new Guid("00000000-0000-0000-0010-000000000000"),
                                     Amount = 100.0m,
                                     Period = 3
                                 });
@@ -328,11 +319,6 @@ namespace Tuudio.Infrastructure.Migrations
 
                     b.Navigation("Price")
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Tuudio.Domain.Entities.Passes.PassTemplate", b =>
-                {
-                    b.Navigation("Passes");
                 });
 
             modelBuilder.Entity("Tuudio.Domain.Entities.People.Client", b =>

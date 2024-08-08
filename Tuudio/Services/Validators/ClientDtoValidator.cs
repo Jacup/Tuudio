@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using Tuudio.DTOs.People;
 
-namespace Tuudio.Validators;
+namespace Tuudio.Services.Validators;
 
 public class ClientDtoValidator : AbstractValidator<ClientDto>
 {

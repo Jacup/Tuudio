@@ -13,12 +13,14 @@ public class UnitOfWork : IUnitOfWork, IDisposable
         TuudioDbContext context, 
         IClientRepository clientRepository, 
         IActivityRepository activityRepository,
-        IPassTemplateRepository passTemplateRepository)
+        IPassTemplateRepository passTemplateRepository,
+        IPassRepository passRepository)
     {
         _context = context ?? throw new ArgumentNullException(nameof(context));
         ClientRepository = clientRepository;
         ActivityRepository = activityRepository;
         PassTemplateRepository = passTemplateRepository;
+        PassRepository = passRepository;
     }
 
     public IClientRepository ClientRepository { get; private set; }
@@ -26,6 +28,8 @@ public class UnitOfWork : IUnitOfWork, IDisposable
     public IActivityRepository ActivityRepository { get; private set; }
 
     public IPassTemplateRepository PassTemplateRepository { get; private set; }
+    
+    public IPassRepository PassRepository { get; private set; }
 
     public void Dispose() => _context.Dispose();
 

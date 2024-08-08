@@ -7,16 +7,24 @@ using Tuudio.UnitTests.Helpers.DataFactories;
 namespace Tuudio.UnitTests.ApplicationTests.Dto.MappingTests;
 
 [TestFixture]
-public class ClientMappingTests
+internal class ClientMappingTests : MappingTestBase
 {
+    [Test]
+    public void Adapt_ClientToDetailedClientDto_TypeShouldBeEqualToAdapted()
+    {
+        var client = ClientFactory.GetClient();
+
+        var clientDetailedDto = client.Adapt<ClientDetailedDto>();
+
+        clientDetailedDto.GetType().ShouldBeEquivalentTo(typeof(ClientDetailedDto));
+    }
+
     [Test]
     public void Adapt_ClientToDetailedClientDto_AllValuesShouldBeEqual()
     {
         var client = ClientFactory.GetClient();
-        
-        var clientDetailedDto = client.Adapt<ClientDetailedDto>();
 
-        clientDetailedDto.GetType().ShouldBeEquivalentTo(typeof(ClientDetailedDto));
+        var clientDetailedDto = client.Adapt<ClientDetailedDto>();
 
         clientDetailedDto.Id.ShouldBeEquivalentTo(client.Id);
         clientDetailedDto.CreatedDate.ShouldBeEquivalentTo(client.CreatedDate);
@@ -25,6 +33,17 @@ public class ClientMappingTests
         clientDetailedDto.LastName.ShouldBeEquivalentTo(client.LastName);
         clientDetailedDto.Email.ShouldBeEquivalentTo(client.Email);
         clientDetailedDto.PhoneNumber.ShouldBeEquivalentTo(client.PhoneNumber);
+        clientDetailedDto.Passes.ShouldBeEquivalentTo(client.Passes.Select(p => p.Id).ToList());
+    }
+
+    [Test]
+    public void Adapt_ClientDtoToClient_ObjectTypeShouldBeEqualToAdapted()
+    {
+        var clientDto = ClientFactory.GetClientDto();
+
+        var client = clientDto.Adapt<Client>();
+
+        client.GetType().ShouldBeEquivalentTo(typeof(Client));
     }
 
     [Test]
@@ -40,5 +59,16 @@ public class ClientMappingTests
         client.LastName.ShouldBeEquivalentTo(clientDto.LastName);
         client.Email.ShouldBeEquivalentTo(clientDto.Email);
         client.PhoneNumber.ShouldBeEquivalentTo(clientDto.PhoneNumber);
+    }
+
+    [Test]
+    public void Adapt_ClientDtoToClient_ShouldMapPassTemplatesIdsAsEmptyPassTemplates()
+    {
+        var clientDto = ClientFactory.GetClientDto();
+
+        var result = clientDto.Adapt<Client>();
+
+        result.Passes.ShouldNotBeNull();
+        result.Passes.ShouldBeEmpty();
     }
 }

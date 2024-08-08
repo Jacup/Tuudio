@@ -5,9 +5,9 @@ using Tuudio.Infrastructure.Services.Interfaces;
 
 namespace Tuudio.Infrastructure.Services.Repositories;
 
-public class PassTemplateRepository(TuudioDbContext context) : GenericRepository<PassTemplate>(context), IPassTemplateRepository
+public class PassRepository(TuudioDbContext context) : GenericRepository<Pass>(context), IPassRepository
 {
-    public async override Task<IEnumerable<PassTemplate>> GetByIdsAsync(IEnumerable<Guid> ids)
+    public override async Task<IEnumerable<Pass>> GetByIdsAsync(IEnumerable<Guid> ids)
     {
         if (ids == null || !ids.Any())
         {
@@ -16,7 +16,6 @@ public class PassTemplateRepository(TuudioDbContext context) : GenericRepository
 
         return await DbSet
             .Where(entity => ids.Contains(entity.Id))
-            .Include(e => e.Activities)
             .ToListAsync();
     }
 }

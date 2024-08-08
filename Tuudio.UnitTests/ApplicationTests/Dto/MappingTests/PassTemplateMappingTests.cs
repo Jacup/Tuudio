@@ -1,5 +1,5 @@
 ﻿using Mapster;
-using Tuudio.Domain.Entities.PassTemplates;
+using Tuudio.Domain.Entities.Passes;
 using Tuudio.DTOs;
 using Tuudio.UnitTests.Helpers.DataFactories;
 
@@ -35,6 +35,7 @@ internal class PassTemplateMappingTests : MappingTestBase
         result.Duration_Amount.ShouldBeEquivalentTo(baseEntity.Duration.Amount);
         result.Duration_Period.ShouldBeEquivalentTo(baseEntity.Duration.Period);
         result.Activities.ShouldBeEquivalentTo(baseEntity.Activities.Select(passtemplate => passtemplate.Id).ToList());
+        result.Passes.ShouldBeEquivalentTo(baseEntity.Passes.Select(passtemplate => passtemplate.Id).ToList());
     }
 
     [Test]
@@ -63,7 +64,7 @@ internal class PassTemplateMappingTests : MappingTestBase
     }
 
     [Test]
-    public void Adapt_PassTemplateDtoToPassTemplate_ShouldMapPassTemplatesIdsAsEmptyPassTemplates()
+    public void Adapt_PassTemplateDtoToPassTemplate_ForeignKeysListsShouldBeEmpty()
     {
         var baseDto = PassTemplateFactory.GetPassTemplateDto();
 
@@ -71,5 +72,8 @@ internal class PassTemplateMappingTests : MappingTestBase
 
         result.Activities.ShouldNotBeNull();
         result.Activities.ShouldBeEmpty();
+
+        result.Passes.ShouldNotBeNull();
+        result.Passes.ShouldBeEmpty();
     }
 }

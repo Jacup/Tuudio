@@ -1,6 +1,6 @@
 ﻿using Tuudio.Domain.Entities.Activities;
 
-namespace Tuudio.Domain.Entities.PassTemplates;
+namespace Tuudio.Domain.Entities.Passes;
 
 public class PassTemplate : DbObject
 {
@@ -15,4 +15,6 @@ public class PassTemplate : DbObject
     public string? Description { get; set; }
 
     public ICollection<Activity> Activities { get; set; } = [];
+
+    public ICollection<Pass> Passes { get; set; } = [];
 }

@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using Tuudio.DTOs;
 
-namespace Tuudio.Validators;
+namespace Tuudio.Services.Validators;
 
 public class PassTemplateDtoValidator : AbstractValidator<PassTemplateDto>
 {

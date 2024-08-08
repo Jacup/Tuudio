@@ -2,6 +2,6 @@
 
 namespace Tuudio.Infrastructure.Services.Interfaces;
 
-public interface IPassTemplateRepository : IGenericRepository<PassTemplate>
+public interface IPassRepository : IGenericRepository<Pass>
 {
 }

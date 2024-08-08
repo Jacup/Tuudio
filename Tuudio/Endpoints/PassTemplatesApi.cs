@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
 using Mapster;
-using Tuudio.Domain.Entities.PassTemplates;
+using Tuudio.Domain.Entities.Passes;
 using Tuudio.Domain.Exceptions;
 using Tuudio.DTOs;
 using Tuudio.Extensions;

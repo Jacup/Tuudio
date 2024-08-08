@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http.Json;
 using System.Text.Json.Serialization;
 using Tuudio.Endpoints;
 using Tuudio.Services.Mapping;
-using Tuudio.Validators;
+using Tuudio.Services.Validators;
 
 namespace Tuudio.Extensions;
 
@@ -47,5 +47,6 @@ public static class Configuration
         app.MapGroup("/api/clients").MapClientsApi();
         app.MapGroup("/api/activities").MapActivitiesApi();
         app.MapGroup("/api/passtemplates").MapPassTemplatesApi();
+        app.MapGroup("/api/passes").MapPassesApi();
     }
 }
