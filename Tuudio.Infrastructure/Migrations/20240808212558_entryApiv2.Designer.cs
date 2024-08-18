@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Tuudio.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using Tuudio.Infrastructure.Data;
 namespace Tuudio.Infrastructure.Migrations
 {
     [DbContext(typeof(TuudioDbContext))]
-    partial class TuudioDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240808212558_entryApiv2")]
+    partial class entryApiv2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -101,9 +104,6 @@ namespace Tuudio.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid>("ActivityId")
-                        .HasColumnType("char(36)");
-
                     b.Property<Guid>("ClientId")
                         .HasColumnType("char(36)");
 
@@ -124,8 +124,6 @@ namespace Tuudio.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ActivityId");
-
                     b.HasIndex("ClientId");
 
                     b.HasIndex("PassId");
@@ -136,20 +134,18 @@ namespace Tuudio.Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("00000000-0000-0000-0004-000000000001"),
-                            ActivityId = new Guid("00000000-0000-0000-0001-000000000001"),
                             ClientId = new Guid("00000000-0000-0000-0000-000000000001"),
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            EntryDate = new DateTime(2024, 8, 18, 19, 37, 4, 379, DateTimeKind.Local).AddTicks(3141),
+                            EntryDate = new DateTime(2024, 8, 8, 23, 25, 57, 718, DateTimeKind.Local).AddTicks(3330),
                             Note = "Client first entry without pass",
                             UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = new Guid("00000000-0000-0000-0004-000000000002"),
-                            ActivityId = new Guid("00000000-0000-0000-0001-000000000001"),
                             ClientId = new Guid("00000000-0000-0000-0000-000000000001"),
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            EntryDate = new DateTime(2024, 8, 18, 19, 37, 4, 379, DateTimeKind.Local).AddTicks(3188),
+                            EntryDate = new DateTime(2024, 8, 8, 23, 25, 57, 718, DateTimeKind.Local).AddTicks(3378),
                             Note = "Client second entry with pass",
                             PassId = new Guid("00000000-0000-0000-0003-000000000001"),
                             UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
@@ -194,9 +190,9 @@ namespace Tuudio.Infrastructure.Migrations
                             Id = new Guid("00000000-0000-0000-0003-000000000001"),
                             ClientId = new Guid("00000000-0000-0000-0000-000000000001"),
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FromDate = new DateOnly(2024, 8, 18),
+                            FromDate = new DateOnly(2024, 8, 8),
                             PassTemplateId = new Guid("00000000-0000-0000-0002-000000000001"),
-                            ToDate = new DateOnly(2024, 11, 18),
+                            ToDate = new DateOnly(2024, 11, 8),
                             UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
@@ -215,7 +211,7 @@ namespace Tuudio.Infrastructure.Migrations
                         .HasMaxLength(128)
                         .HasColumnType("varchar(128)");
 
-                    b.Property<int>("EntriesAmount")
+                    b.Property<int>("Entries")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -236,7 +232,7 @@ namespace Tuudio.Infrastructure.Migrations
                             Id = new Guid("00000000-0000-0000-0002-000000000001"),
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Pass for yoga classes, unlimited entries, paid monthly, 3 months",
-                            EntriesAmount = 0,
+                            Entries = 0,
                             Name = "Monthly yoga pass",
                             UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
@@ -311,12 +307,6 @@ namespace Tuudio.Infrastructure.Migrations
 
             modelBuilder.Entity("Tuudio.Domain.Entities.Entries.Entry", b =>
                 {
-                    b.HasOne("Tuudio.Domain.Entities.Activities.Activity", "Activity")
-                        .WithMany("Entries")
-                        .HasForeignKey("ActivityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Tuudio.Domain.Entities.People.Client", "Client")
                         .WithMany("Entries")
                         .HasForeignKey("ClientId")
@@ -326,8 +316,6 @@ namespace Tuudio.Infrastructure.Migrations
                     b.HasOne("Tuudio.Domain.Entities.Passes.Pass", "Pass")
                         .WithMany("Entries")
                         .HasForeignKey("PassId");
-
-                    b.Navigation("Activity");
 
                     b.Navigation("Client");
 
@@ -414,11 +402,6 @@ namespace Tuudio.Infrastructure.Migrations
 
                     b.Navigation("Price")
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Tuudio.Domain.Entities.Activities.Activity", b =>
-                {
-                    b.Navigation("Entries");
                 });
 
             modelBuilder.Entity("Tuudio.Domain.Entities.Passes.Pass", b =>

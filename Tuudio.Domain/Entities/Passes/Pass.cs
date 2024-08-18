@@ -1,4 +1,5 @@
-﻿using Tuudio.Domain.Entities.People;
+﻿using Tuudio.Domain.Entities.Entries;
+using Tuudio.Domain.Entities.People;
 
 namespace Tuudio.Domain.Entities.Passes;
 
@@ -11,10 +12,12 @@ public class Pass : DbObject
     public required Guid ClientId { get; set; }
 
     public Client Client { get; set; }
-    
+
     public required Guid PassTemplateId { get; set; }
 
     public PassTemplate PassTemplate { get; set; }
+
+    public ICollection<Entry> Entries { get; set; } = [];
 
     public override string? ToString() => $"{PassTemplate.Name}: {FromDate.ToShortDateString} -> {ToDate.ToShortDateString}";
 }

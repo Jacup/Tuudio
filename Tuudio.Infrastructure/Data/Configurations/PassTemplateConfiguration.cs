@@ -25,7 +25,7 @@ public class PassTemplateConfiguration : IEntityTypeConfiguration<PassTemplate>
                 Id = new Guid("00000000-0000-0000-0002-000000000001"),
                 Name = "Monthly yoga pass",
                 Description = "Pass for yoga classes, unlimited entries, paid monthly, 3 months",
-                Entries = 0
+                EntriesAmount = 0
             });
 
         builder.OwnsOne(e => e.Price, price =>

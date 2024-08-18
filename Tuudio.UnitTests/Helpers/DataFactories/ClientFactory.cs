@@ -1,4 +1,5 @@
-﻿using Tuudio.Domain.Entities.Passes;
+﻿using Tuudio.Domain.Entities.Entries;
+using Tuudio.Domain.Entities.Passes;
 using Tuudio.Domain.Entities.People;
 using Tuudio.DTOs.People;
 using Tuudio.DTOs.People.Detailed;
@@ -43,6 +44,33 @@ internal class ClientFactory
                 ClientId = new Guid("00000000-0000-0000-0000-000000000001"),
                 PassTemplateId = new Guid("00000000-0000-0000-0002-000000000002"),
             }
+        ],
+
+        Entries =
+        [
+            new Entry()
+            {
+                Id = new Guid("00000000-0000-0000-0004-000000000001"),
+                CreatedDate = DateTime.Now,
+                UpdatedDate = DateTime.Now.AddDays(1),
+                EntryDate = DateTime.Now,
+                Note = "Some note on 01 entry",
+
+                ClientId = new Guid("00000000-0000-0000-0000-000000000001"),
+                PassId = new Guid("00000000-0000-0000-0003-000000000001"),
+                ActivityId = new Guid("00000000-0000-0000-0001-000000000001")
+            },
+            new Entry()
+            {
+                Id = new Guid("00000000-0000-0000-0004-000000000002"),
+                CreatedDate = DateTime.Now.AddHours(1),
+                UpdatedDate = DateTime.Now.AddDays(1),
+                EntryDate = DateTime.Now.AddHours(1),
+                Note = "Some note on 02 entry without pass",
+
+                ClientId = new Guid("00000000-0000-0000-0000-000000000001"),
+                ActivityId = new Guid("00000000-0000-0000-0001-000000000001")
+            }
         ]
     };
 
@@ -62,6 +90,12 @@ internal class ClientFactory
         [
             new Guid("00000000-0000-0000-0003-000000000001"),
             new Guid("00000000-0000-0000-0003-000000000002")
+        ],
+
+        Entries =
+        [
+            new Guid("00000000-0000-0000-0004-000000000001"),
+            new Guid("00000000-0000-0000-0004-000000000002"),
         ]
     };
 
@@ -76,6 +110,12 @@ internal class ClientFactory
         [
             new Guid("00000000-0000-0000-0003-000000000001"),
             new Guid("00000000-0000-0000-0003-000000000002")
+        ],
+
+        Entries =
+        [
+            new Guid("00000000-0000-0000-0004-000000000001"),
+            new Guid("00000000-0000-0000-0004-000000000002"),
         ]
     };
 }

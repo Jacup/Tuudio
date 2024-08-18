@@ -1,5 +1,6 @@
 ﻿using Mapster;
 using Tuudio.Domain.Entities.Activities;
+using Tuudio.Domain.Entities.Entries;
 using Tuudio.Domain.Entities.Passes;
 using Tuudio.Domain.Entities.People;
 using Tuudio.DTOs;
@@ -14,22 +15,23 @@ public static class MapsterConfiguration
     {
         // Clients
         TypeAdapterConfig<Client, ClientDetailedDto>.NewConfig()
-            .Map(dest => dest.Passes, src => src.Passes.Select(p => p.Id).ToList());
+            .Map(dest => dest.Passes, src => src.Passes.Select(pass => pass.Id).ToList())
+            .Map(dest => dest.Entries, src => src.Entries.Select(entry => entry.Id).ToList());
 
         TypeAdapterConfig<ClientDto, Client>.NewConfig()
-            .Ignore(dest => dest.Passes);
-
-
+            .Ignore(dest => dest.Passes)
+            .Ignore(dest => dest.Entries);
 
 
 
         // Activities
         TypeAdapterConfig<Activity, ActivityDetailedDto>.NewConfig()
-            .Map(dest => dest.PassTemplates, src => src.PassTemplates.Select(pt => pt.Id).ToList());
+            .Map(dest => dest.PassTemplates, src => src.PassTemplates.Select(pt => pt.Id).ToList())
+            .Map(dest => dest.Entries, src => src.Entries.Select(entry => entry.Id).ToList());
 
         TypeAdapterConfig<ActivityDto, Activity>.NewConfig()
-            .Ignore(dest => dest.PassTemplates);
-
+            .Ignore(dest => dest.PassTemplates)
+            .Ignore(dest => dest.Entries);
 
 
 
@@ -50,6 +52,23 @@ public static class MapsterConfiguration
             .Map(dest => dest.Duration_Period, src => src.Duration.Period)
             .Map(dest => dest.Activities, src => src.Activities.Select(a => a.Id).ToList())
             .Map(dest => dest.Passes, src => src.Passes.Select(a => a.Id).ToList());
+
+
+
+        // Passes
+        TypeAdapterConfig<Pass, PassDetailedDto>.NewConfig()
+            .Map(dest => dest.Entries, src => src.Entries.Select(entry => entry.Id).ToList());
+
+
+
+        // Entries
+        //TypeAdapterConfig<Entry, EntryDetailedDto>.NewConfig()
+            //.Map(dest => dest.)
+
+
+
+
+
     }
 }
 

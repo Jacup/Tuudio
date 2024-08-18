@@ -17,7 +17,7 @@ internal class PassTemplateFactory
 
         Name = "Monthly yoga pass",
         Description = "Pass for yoga classes, unlimited entries, paid monthly, 3 months",
-        Entries = 0,
+        EntriesAmount = 0,
 
         Price = new Price() { Amount = 50, Period = Period.Month, },
         Duration = new Duration() { Amount = 3, Period = Period.Month },
@@ -77,7 +77,7 @@ internal class PassTemplateFactory
 
         Name = "Monthly yoga pass",
         Description = "Pass for yoga classes, unlimited entries, paid monthly, 3 months",
-        Entries = 0,
+        EntriesAmount = 0,
 
         Price_Amount = 50,
         Price_Period = Period.Month,
@@ -101,7 +101,7 @@ internal class PassTemplateFactory
     {
         Name = "Monthly yoga pass",
         Description = "Pass for yoga classes, unlimited entries, paid monthly, 3 months",
-        Entries = 0,
+        EntriesAmount = 0,
 
         Price_Amount = 50,
         Price_Period = Period.Month,

@@ -9,4 +9,6 @@ public record PassDto
     public required Guid ClientId { get; set; }
 
     public required Guid PassTemplateId { get; set; }
+
+    public ICollection<Guid> Entries { get; set; } = [];
 }

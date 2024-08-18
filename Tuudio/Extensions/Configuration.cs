@@ -24,7 +24,8 @@ public static class Configuration
             .AddFluentValidationAutoValidation()
             .AddValidatorsFromAssemblyContaining<ClientDtoValidator>()
             .AddValidatorsFromAssemblyContaining<ActivityDtoValidator>()
-            .AddValidatorsFromAssemblyContaining<PassTemplateDtoValidator>();
+            .AddValidatorsFromAssemblyContaining<PassTemplateDtoValidator>()
+            .AddValidatorsFromAssemblyContaining<EntryDtoValidator>();
 
         builder.Services
             .AddEndpointsApiExplorer()
@@ -48,5 +49,6 @@ public static class Configuration
         app.MapGroup("/api/activities").MapActivitiesApi();
         app.MapGroup("/api/passtemplates").MapPassTemplatesApi();
         app.MapGroup("/api/passes").MapPassesApi();
+        app.MapGroup("/api/entries").MapEntriesApi();
     }
 }

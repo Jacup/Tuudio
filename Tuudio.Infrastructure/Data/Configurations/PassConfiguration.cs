@@ -8,13 +8,18 @@ public class PassConfiguration : IEntityTypeConfiguration<Pass>
 {
     public void Configure(EntityTypeBuilder<Pass> builder)
     {
-        builder.HasKey(e => e.Id);
+        builder.HasKey(pass => pass.Id);
 
-        builder.Property(e => e.FromDate)
+        builder.Property(pass => pass.FromDate)
             .IsRequired();
 
-        builder.Property(e => e.ToDate)
+        builder.Property(pass => pass.ToDate)
             .IsRequired();
+
+        builder
+            .HasMany(pass => pass.Entries)
+            .WithOne(entry => entry.Pass)
+            .HasForeignKey(pass => pass.PassId);
 
         builder.HasData(
             new Pass()
@@ -25,5 +30,9 @@ public class PassConfiguration : IEntityTypeConfiguration<Pass>
                 ClientId = new Guid("00000000-0000-0000-0000-000000000001"),
                 PassTemplateId = new Guid("00000000-0000-0000-0002-000000000001"),
             });
+
+        builder.Navigation(pass => pass.Entries).AutoInclude();
+
+        builder.ToTable("Passes");
     }
 }

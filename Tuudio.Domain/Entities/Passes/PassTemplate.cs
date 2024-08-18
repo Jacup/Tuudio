@@ -10,7 +10,7 @@ public class PassTemplate : DbObject
 
     public Duration Duration { get; set; }
 
-    public int Entries { get; set; }
+    public int EntriesAmount { get; set; }
 
     public string? Description { get; set; }
 

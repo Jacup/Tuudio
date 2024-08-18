@@ -10,5 +10,7 @@ public interface IUnitOfWork
 
     IPassRepository PassRepository { get; }
 
+    IEntryRepository EntryRepository { get; }
+
     Task<T> ExecuteAsync<T>(Func<Task<T>> action);
 }

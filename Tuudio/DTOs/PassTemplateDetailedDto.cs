@@ -8,13 +8,13 @@ public record PassTemplateDetailedDto : DbObjectDto
 
     public decimal Price_Amount { get; set; }
 
-    public Period Price_Period { get; set; }
+    public required Period Price_Period { get; set; }
 
-    public int Duration_Amount { get; set; }
+    public required int Duration_Amount { get; set; }
 
-    public Period Duration_Period { get; set; }
+    public required Period Duration_Period { get; set; }
 
-    public int Entries { get; set; }
+    public required int EntriesAmount { get; set; }
 
     public string? Description { get; set; }
 

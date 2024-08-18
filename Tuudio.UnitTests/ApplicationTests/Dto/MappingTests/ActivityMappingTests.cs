@@ -30,6 +30,7 @@ internal class ActivityMappingTests : MappingTestBase
         result.Name.ShouldBeEquivalentTo(baseEntity.Name);
         result.Description.ShouldBeEquivalentTo(baseEntity.Description);
         result.PassTemplates.ShouldBeEquivalentTo(baseEntity.PassTemplates.Select(passtemplate => passtemplate.Id).ToList());
+        result.Entries.ShouldBeEquivalentTo(baseEntity.Entries.Select(entry => entry.Id).ToList());
     }
 
     [Test]
