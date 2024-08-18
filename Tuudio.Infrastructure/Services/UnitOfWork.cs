@@ -14,13 +14,16 @@ public class UnitOfWork : IUnitOfWork, IDisposable
         IClientRepository clientRepository, 
         IActivityRepository activityRepository,
         IPassTemplateRepository passTemplateRepository,
-        IPassRepository passRepository)
+        IPassRepository passRepository,
+        IEntryRepository entryRepository)
     {
         _context = context ?? throw new ArgumentNullException(nameof(context));
+
         ClientRepository = clientRepository;
         ActivityRepository = activityRepository;
         PassTemplateRepository = passTemplateRepository;
         PassRepository = passRepository;
+        EntryRepository = entryRepository;
     }
 
     public IClientRepository ClientRepository { get; private set; }
@@ -30,6 +33,8 @@ public class UnitOfWork : IUnitOfWork, IDisposable
     public IPassTemplateRepository PassTemplateRepository { get; private set; }
     
     public IPassRepository PassRepository { get; private set; }
+
+    public IEntryRepository EntryRepository { get; private set; }
 
     public void Dispose() => _context.Dispose();
 

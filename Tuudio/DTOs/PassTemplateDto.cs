@@ -14,7 +14,7 @@ public record PassTemplateDto
 
     public required Period Duration_Period { get; set; }
 
-    public required int Entries { get; set; }
+    public required int EntriesAmount { get; set; }
 
     public string? Description { get; set; }
 

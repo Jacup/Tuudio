@@ -7,4 +7,6 @@ public record ActivityDto
     public string? Description { get; set; }
 
     public ICollection<Guid> PassTemplates { get; set; } = [];
+
+    public ICollection<Guid> Entries { get; set; } = [];
 }

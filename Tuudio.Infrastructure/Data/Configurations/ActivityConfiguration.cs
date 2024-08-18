@@ -38,6 +38,8 @@ public class ActivityConfiguration : IEntityTypeConfiguration<Activity>
 
 
         builder.Navigation(e => e.PassTemplates).AutoInclude();
+        builder.Navigation(e => e.Entries).AutoInclude();
+
         builder.ToTable("Activities");
     }
 }

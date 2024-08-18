@@ -34,6 +34,7 @@ internal class ClientMappingTests : MappingTestBase
         clientDetailedDto.Email.ShouldBeEquivalentTo(client.Email);
         clientDetailedDto.PhoneNumber.ShouldBeEquivalentTo(client.PhoneNumber);
         clientDetailedDto.Passes.ShouldBeEquivalentTo(client.Passes.Select(p => p.Id).ToList());
+        clientDetailedDto.Entries.ShouldBeEquivalentTo(client.Entries.Select(p => p.Id).ToList());
     }
 
     [Test]
@@ -70,5 +71,16 @@ internal class ClientMappingTests : MappingTestBase
 
         result.Passes.ShouldNotBeNull();
         result.Passes.ShouldBeEmpty();
+    }
+
+    [Test]
+    public void Adapt_ClientDtoToClient_ShouldMapEntriesIdsAsEmptyEntries()
+    {
+        var clientDto = ClientFactory.GetClientDto();
+
+        var result = clientDto.Adapt<Client>();
+
+        result.Entries.ShouldNotBeNull();
+        result.Entries.ShouldBeEmpty();
     }
 }

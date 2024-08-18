@@ -13,10 +13,13 @@ public class UnitOfWorkTests
 {
     private Mock<TuudioDbContext> dbContextMock;
     private Mock<DatabaseFacade> databaseFacadeMock;
+    
     private Mock<IClientRepository> clientRepositoryMock;
     private Mock<IActivityRepository> activityRepositoryMock;
     private Mock<IPassTemplateRepository> passTemplateRepositoryMock;
     private Mock<IPassRepository> passRepositoryMock;
+    private Mock<IEntryRepository> entryRepositoryMock;
+
     private UnitOfWork unitOfWork;
 
     [SetUp]
@@ -41,13 +44,16 @@ public class UnitOfWorkTests
         activityRepositoryMock = new Mock<IActivityRepository>();
         passTemplateRepositoryMock = new Mock<IPassTemplateRepository>();
         passRepositoryMock = new Mock<IPassRepository>();
+        entryRepositoryMock = new Mock<IEntryRepository>();
 
         unitOfWork = new UnitOfWork(
             dbContextMock.Object,
             clientRepositoryMock.Object,
             activityRepositoryMock.Object,
             passTemplateRepositoryMock.Object,
-            passRepositoryMock.Object);
+            passRepositoryMock.Object,
+            entryRepositoryMock.Object
+            );
     }
 
     [TearDown]

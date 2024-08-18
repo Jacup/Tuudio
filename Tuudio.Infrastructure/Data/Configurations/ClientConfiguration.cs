@@ -8,22 +8,27 @@ public class ClientConfiguration : IEntityTypeConfiguration<Client>
 {
     public void Configure(EntityTypeBuilder<Client> builder)
     {
-        builder.HasKey(e => e.Id);
+        builder.HasKey(client => client.Id);
 
-        builder.Property(e => e.FirstName)
+        builder.Property(client => client.FirstName)
             .IsRequired()
             .HasMaxLength(64);
 
-        builder.Property(e => e.LastName)
+        builder.Property(client => client.LastName)
             .IsRequired()
             .HasMaxLength(64);
 
         builder
-            .HasMany(e => e.Passes)
-            .WithOne(e => e.Client)
-            .HasForeignKey(e => e.ClientId)
+            .HasMany(client => client.Passes)
+            .WithOne(pass => pass.Client)
+            .HasForeignKey(client => client.ClientId)
             .IsRequired();
 
+        builder
+            .HasMany(client => client.Entries)
+            .WithOne(entry => entry.Client)
+            .HasForeignKey(client => client.ClientId)
+            .IsRequired();
 
         builder.HasData(
             new Client()
@@ -40,7 +45,9 @@ public class ClientConfiguration : IEntityTypeConfiguration<Client>
                 LastName = "Doe",
             });
 
-        builder.Navigation(e => e.Passes).AutoInclude();
+        builder.Navigation(client => client.Passes).AutoInclude();
+        builder.Navigation(client => client.Entries).AutoInclude();
+        
         builder.ToTable("Clients");
     }
 }

@@ -24,7 +24,7 @@ public class PassTemplatesApiTests
             Name = "Foo",
             Price = new Price() { Amount = 50, Period = Period.Month },
             Duration = new Duration() { Amount = 3, Period = Period.Month },
-            Entries = 0,
+            EntriesAmount = 0,
         },
         new()
         {
@@ -32,7 +32,7 @@ public class PassTemplatesApiTests
             Name = "Bar",
             Price = new Price() { Amount = 100, Period = Period.Month },
             Duration = new Duration() { Amount = 1, Period = Period.Month },
-            Entries = 0,
+            EntriesAmount = 0,
         },
     ];
 
@@ -141,7 +141,7 @@ public class PassTemplatesApiTests
             Price_Period = Period.Month,
             Duration_Amount = 3,
             Duration_Period = Period.Month,
-            Entries = 0,
+            EntriesAmount = 0,
             Activities = [Guid.Parse("00000000-0000-0000-0001-000000000001")]
         };
 
@@ -217,7 +217,7 @@ public class PassTemplatesApiTests
             Price_Period = Period.Month,
             Duration_Amount = 3,
             Duration_Period = Period.Month,
-            Entries = 0,
+            EntriesAmount = 0,
             Activities = [Guid.Parse("00000000-0000-0000-0001-000000000001")]
         };
 
@@ -254,7 +254,7 @@ public class PassTemplatesApiTests
             Price_Period = Period.Month,
             Duration_Amount = 3,
             Duration_Period = Period.Month,
-            Entries = 0,
+            EntriesAmount = 0,
             Activities = [Guid.Parse("00000000-0000-0000-0001-000000000001")]
         };
 
@@ -328,7 +328,7 @@ public class PassTemplatesApiTests
             Price_Period = Period.Month,
             Duration_Amount = 3,
             Duration_Period = Period.Month,
-            Entries = 0,
+            EntriesAmount = 0,
             Activities = [Guid.Parse("00000000-0000-0000-0001-000000000001")]
         };
 
@@ -371,7 +371,7 @@ public class PassTemplatesApiTests
             Price_Period = Period.Month,
             Duration_Amount = 3,
             Duration_Period = Period.Month,
-            Entries = 0,
+            EntriesAmount = 0,
             Activities = [Guid.Parse("00000000-0000-0000-0001-000000000001")]
         };
 

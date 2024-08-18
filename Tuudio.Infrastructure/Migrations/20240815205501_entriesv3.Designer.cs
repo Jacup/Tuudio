@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Tuudio.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using Tuudio.Infrastructure.Data;
 namespace Tuudio.Infrastructure.Migrations
 {
     [DbContext(typeof(TuudioDbContext))]
-    partial class TuudioDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240815205501_entriesv3")]
+    partial class entriesv3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -139,7 +142,7 @@ namespace Tuudio.Infrastructure.Migrations
                             ActivityId = new Guid("00000000-0000-0000-0001-000000000001"),
                             ClientId = new Guid("00000000-0000-0000-0000-000000000001"),
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            EntryDate = new DateTime(2024, 8, 18, 19, 37, 4, 379, DateTimeKind.Local).AddTicks(3141),
+                            EntryDate = new DateTime(2024, 8, 15, 22, 55, 1, 228, DateTimeKind.Local).AddTicks(2242),
                             Note = "Client first entry without pass",
                             UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -149,7 +152,7 @@ namespace Tuudio.Infrastructure.Migrations
                             ActivityId = new Guid("00000000-0000-0000-0001-000000000001"),
                             ClientId = new Guid("00000000-0000-0000-0000-000000000001"),
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            EntryDate = new DateTime(2024, 8, 18, 19, 37, 4, 379, DateTimeKind.Local).AddTicks(3188),
+                            EntryDate = new DateTime(2024, 8, 15, 22, 55, 1, 228, DateTimeKind.Local).AddTicks(2290),
                             Note = "Client second entry with pass",
                             PassId = new Guid("00000000-0000-0000-0003-000000000001"),
                             UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
@@ -194,9 +197,9 @@ namespace Tuudio.Infrastructure.Migrations
                             Id = new Guid("00000000-0000-0000-0003-000000000001"),
                             ClientId = new Guid("00000000-0000-0000-0000-000000000001"),
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FromDate = new DateOnly(2024, 8, 18),
+                            FromDate = new DateOnly(2024, 8, 15),
                             PassTemplateId = new Guid("00000000-0000-0000-0002-000000000001"),
-                            ToDate = new DateOnly(2024, 11, 18),
+                            ToDate = new DateOnly(2024, 11, 15),
                             UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });

@@ -23,6 +23,7 @@ public static class DbContextExtensions
         services.AddScoped<IActivityRepository, ActivityRepository>();
         services.AddScoped<IPassTemplateRepository, PassTemplateRepository>();
         services.AddScoped<IPassRepository, PassRepository>();
+        services.AddScoped<IEntryRepository, EntryRepository>();
         
         services.AddScoped<IUnitOfWork, UnitOfWork>();
     }

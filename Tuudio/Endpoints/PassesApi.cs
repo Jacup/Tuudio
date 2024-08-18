@@ -84,6 +84,7 @@ public static class PassApi
 
         return Results.Created($"/{Path}/{pass.Id}", pass.Adapt<PassDetailedDto>());
     }
+    
     internal static async Task<IResult> UpdateAsync(IUnitOfWork uow, Guid id, PassDto dto, IValidator<PassDto> validator)
     {
         if (id == Guid.Empty)
