@@ -1,6 +1,5 @@
 ﻿using Mapster;
 using Tuudio.Domain.Entities.Activities;
-using Tuudio.Domain.Entities.Entries;
 using Tuudio.Domain.Entities.Passes;
 using Tuudio.Domain.Entities.People;
 using Tuudio.DTOs;
@@ -13,18 +12,14 @@ public static class MapsterConfiguration
 {
     public static void Configure()
     {
-        // Clients
-        TypeAdapterConfig<Client, ClientDetailedDto>.NewConfig()
-            .Map(dest => dest.Passes, src => src.Passes.Select(pass => pass.Id).ToList())
-            .Map(dest => dest.Entries, src => src.Entries.Select(entry => entry.Id).ToList());
+        ConfigureActivitiesMapping();
+        ConfigureClientsMapping();
+        ConfigurePassTemplatesMapping();
+        ConfigurePassesMapping();
+    }
 
-        TypeAdapterConfig<ClientDto, Client>.NewConfig()
-            .Ignore(dest => dest.Passes)
-            .Ignore(dest => dest.Entries);
-
-
-
-        // Activities
+    private static void ConfigureActivitiesMapping()
+    {
         TypeAdapterConfig<Activity, ActivityDetailedDto>.NewConfig()
             .Map(dest => dest.PassTemplates, src => src.PassTemplates.Select(pt => pt.Id).ToList())
             .Map(dest => dest.Entries, src => src.Entries.Select(entry => entry.Id).ToList());
@@ -32,10 +27,21 @@ public static class MapsterConfiguration
         TypeAdapterConfig<ActivityDto, Activity>.NewConfig()
             .Ignore(dest => dest.PassTemplates)
             .Ignore(dest => dest.Entries);
+    }
 
+    private static void ConfigureClientsMapping()
+    {
+        TypeAdapterConfig<Client, ClientDetailedDto>.NewConfig()
+            .Map(dest => dest.Passes, src => src.Passes.Select(pass => pass.Id).ToList())
+            .Map(dest => dest.Entries, src => src.Entries.Select(entry => entry.Id).ToList());
 
+        TypeAdapterConfig<ClientDto, Client>.NewConfig()
+            .Ignore(dest => dest.Passes)
+            .Ignore(dest => dest.Entries);
+    }
 
-        // PassTemplates
+    private static void ConfigurePassTemplatesMapping()
+    {
         TypeAdapterConfig<PassTemplateDto, PassTemplate>.NewConfig()
             .Ignore(dest => dest.Passes)
             .Ignore(dest => dest.Activities)
@@ -52,23 +58,12 @@ public static class MapsterConfiguration
             .Map(dest => dest.Duration_Period, src => src.Duration.Period)
             .Map(dest => dest.Activities, src => src.Activities.Select(a => a.Id).ToList())
             .Map(dest => dest.Passes, src => src.Passes.Select(a => a.Id).ToList());
+    }
 
-
-
-        // Passes
+    private static void ConfigurePassesMapping()
+    {
         TypeAdapterConfig<Pass, PassDetailedDto>.NewConfig()
             .Map(dest => dest.Entries, src => src.Entries.Select(entry => entry.Id).ToList());
-
-
-
-        // Entries
-        //TypeAdapterConfig<Entry, EntryDetailedDto>.NewConfig()
-            //.Map(dest => dest.)
-
-
-
-
-
     }
-}
 
+}
