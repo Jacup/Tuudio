@@ -11,6 +11,8 @@ namespace Tuudio.Endpoints;
 
 public static class ClientsApi
 {
+    private const string Path = "clients";
+
     public static RouteGroupBuilder MapClientsApi(this RouteGroupBuilder group)
     {
         group
@@ -79,7 +81,7 @@ public static class ClientsApi
 
         await unitOfWork.ClientRepository.InsertAsync(client);
 
-        return Results.Created($"/clients/{client.Id}", client.Adapt<ClientDetailedDto>());
+        return Results.Created($"/{Path}/{client.Id}", client.Adapt<ClientDetailedDto>());
     }
 
     internal static async Task<IResult> UpdateAsync(IUnitOfWork unitOfWork, Guid id, ClientDto clientDto, IValidator<ClientDto> validator)

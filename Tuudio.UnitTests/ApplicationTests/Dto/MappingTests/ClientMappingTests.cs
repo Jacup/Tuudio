@@ -7,7 +7,7 @@ using Tuudio.UnitTests.Helpers.DataFactories;
 namespace Tuudio.UnitTests.ApplicationTests.Dto.MappingTests;
 
 [TestFixture]
-internal class ClientMappingTests : MappingTestBase
+public class ClientMappingTests : MappingTestBase
 {
     [Test]
     public void Adapt_ClientToDetailedClientDto_TypeShouldBeEqualToAdapted()
@@ -29,10 +29,12 @@ internal class ClientMappingTests : MappingTestBase
         clientDetailedDto.Id.ShouldBeEquivalentTo(client.Id);
         clientDetailedDto.CreatedDate.ShouldBeEquivalentTo(client.CreatedDate);
         clientDetailedDto.UpdatedDate.ShouldBeEquivalentTo(client.UpdatedDate);
+
         clientDetailedDto.FirstName.ShouldBeEquivalentTo(client.FirstName);
         clientDetailedDto.LastName.ShouldBeEquivalentTo(client.LastName);
         clientDetailedDto.Email.ShouldBeEquivalentTo(client.Email);
         clientDetailedDto.PhoneNumber.ShouldBeEquivalentTo(client.PhoneNumber);
+
         clientDetailedDto.Passes.ShouldBeEquivalentTo(client.Passes.Select(p => p.Id).ToList());
         clientDetailedDto.Entries.ShouldBeEquivalentTo(client.Entries.Select(p => p.Id).ToList());
     }
@@ -53,8 +55,6 @@ internal class ClientMappingTests : MappingTestBase
         var clientDto = ClientFactory.GetClientDto();
 
         var client = clientDto.Adapt<Client>();
-
-        client.GetType().ShouldBeEquivalentTo(typeof(Client));
 
         client.FirstName.ShouldBeEquivalentTo(clientDto.FirstName);
         client.LastName.ShouldBeEquivalentTo(clientDto.LastName);

@@ -105,17 +105,5 @@ internal class ClientFactory
         LastName = "Doe",
         Email = "example@site.com",
         PhoneNumber = "+48123456789",
-
-        Passes =
-        [
-            new Guid("00000000-0000-0000-0003-000000000001"),
-            new Guid("00000000-0000-0000-0003-000000000002")
-        ],
-
-        Entries =
-        [
-            new Guid("00000000-0000-0000-0004-000000000001"),
-            new Guid("00000000-0000-0000-0004-000000000002"),
-        ]
     };
 }

@@ -48,6 +48,6 @@ public class ClientConfiguration : IEntityTypeConfiguration<Client>
         builder.Navigation(client => client.Passes).AutoInclude();
         builder.Navigation(client => client.Entries).AutoInclude();
         
-        builder.ToTable("Clients");
+        builder.ToTable("Client");
     }
 }

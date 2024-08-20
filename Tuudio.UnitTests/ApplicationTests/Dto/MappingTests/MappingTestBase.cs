@@ -2,7 +2,7 @@
 
 namespace Tuudio.UnitTests.ApplicationTests.Dto.MappingTests;
 
-internal class MappingTestBase
+public class MappingTestBase
 {
     [SetUp]
     public void SetUp()
